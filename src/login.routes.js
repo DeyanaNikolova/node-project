@@ -7,7 +7,8 @@ const loginRoutes = (req, res) => {
     req.on('end', () => {
         const parsedData = Buffer.concat(data).toString();
         const { login, password } = parseConnectionData(parsedData);
-        if (login === 'Alex' && password === '123') {
+
+        if (login && login.length > 2 && password && password.length > 2) {
             res.setHeader('Location', '/');
         } else {
             res.setHeader('Location', '/connection');
