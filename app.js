@@ -1,5 +1,5 @@
 const http = require('http');
-
+const { requestListener } = require('./routes');
 // const server = http.createServer((req, res) =>{
 //     res.statusCode = 200;
 //     res.setHeader('Content-type', 'text/plain');
@@ -13,12 +13,9 @@ const http = require('http');
 //     console.log(`Server is running at http://${hostName}:${port}`);  
 // })
 
-http.createServer((req, res)=>{
-    res.setHeader('Content-Type', 'text/html');
-    res.write('<html>');
-    res.write('<head><title>Welcome Page</title></head>');
-    res.write('<body><h2>Hello from server!</h2></body>');
-    res.write('</html>');
-    res.end();
-    console.log('Server is running');
-}).listen(3000);
+
+
+
+http.createServer(requestListener).listen(3000, () => {
+    console.log('Server is running on port 3000 ...');
+});
