@@ -1,20 +1,22 @@
 const loginRoutes = (req, res) => {
-    res.statusCode = 302;
-    const data = [];
-    req.on('data', (chunck) => {
-        data.push(chunck);
-    });
-    req.on('end', () => {
-        const parsedData = Buffer.concat(data).toString();
-        const { login, password } = parseConnectionData(parsedData);
+    if (req.method === 'POST') {
+        res.statusCode = 302;
+        const data = [];
+        req.on('data', (chunck) => {
+            data.push(chunck);
+        });
+        req.on('end', () => {
+            const parsedData = Buffer.concat(data).toString();
+            const { login, password } = parseConnectionData(parsedData);
 
-        if (login && login.length > 2 && password && password.length > 2) {
-            res.setHeader('Location', '/');
-        } else {
-            res.setHeader('Location', '/connection');
-        }
-        res.end();
-    });
+            if (login && login.length > 2 && password && password.length > 2) {
+                res.setHeader('Location', '/product');
+            } else {
+                res.setHeader('Location', '/connection');
+            }
+            res.end();
+        });
+    }
 };
 
 const parseConnectionData = parsedData => {
