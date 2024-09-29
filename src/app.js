@@ -1,21 +1,25 @@
 const http = require('http');
-const { requestListener } = require('./routes');
-// const server = http.createServer((req, res) =>{
-//     res.statusCode = 200;
-//     res.setHeader('Content-type', 'text/plain');
-//     res.end('Hello World!');
-// });
 
-// const port = 3000;
-// const hostName = 'localhost'
-
-// server.listen(port, hostName, ()=>{
-//     console.log(`Server is running at http://${hostName}:${port}`);  
-// })
+const { welcomeRoutes } = require('./welcome.routes');
+const { connectionRoutes } = require('./connection.routes');
+const { loginRoutes } = require('./login.routes');
+const { notFoundRoutes } = require('./not-founf.routes');
 
 
+const server = http.createServer((req, res) => {
+    res.setHeader('Content-Type', 'text/html');
 
+    if (req.url === '/') {
+        welcomeRoutes(req, res);
+    } else if (req.url === '/connection') {
+        connectionRoutes(req, res);
+    } else if (req.url === '/login' && req.method === 'POST') {
+        loginRoutes(req, res);
+    } else {
+        notFoundRoutes(req, res);
+    }
+});
 
-http.createServer(requestListener).listen(3000, () => {
+server.listen(3000, () => {
     console.log('Server is running on port 3000 ...');
 });
