@@ -4,7 +4,7 @@ const { welcomeRoutes } = require('./welcome.routes');
 const { connectionRoutes } = require('./connection.routes');
 const { loginRoutes } = require('./login.routes');
 const { notFoundRoutes } = require('./not-founf.routes');
-
+const { productRoutes } = require('./product.routes');
 
 const server = http.createServer((req, res) => {
     res.setHeader('Content-Type', 'text/html');
@@ -13,8 +13,10 @@ const server = http.createServer((req, res) => {
         welcomeRoutes(req, res);
     } else if (req.url === '/connection') {
         connectionRoutes(req, res);
-    } else if (req.url === '/login' && req.method === 'POST') {
+    } else if (req.url === '/login') {
         loginRoutes(req, res);
+    } else if (req.url === '/product') {
+        productRoutes(req, res);
     } else {
         notFoundRoutes(req, res);
     }
