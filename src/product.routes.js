@@ -7,7 +7,10 @@ const productRoutes = (req, res) => {
         });
         req.on('end', () => {
             const parsedData = Buffer.concat(data).toString();
-            products.push(parseProductData(parsedData));
+            const newProduct = parseProductData(parsedData);
+            if (!products.some((product => product.title === newProduct.title))) {
+                products.push(newProduct);
+            }
 
             // if (title && title.length > 2 && password && password.length > 2) {
             //     res.setHeader('Location', '/product');
@@ -16,6 +19,11 @@ const productRoutes = (req, res) => {
             // }
             res.end(template());
         });
+    } else if (req.method === 'DELETE') {
+        const title = req.url.split('title=')[1];
+        products = products.filter(product => product.title !== title);
+        res.setHeader('Content-Type', 'text/plain')
+        res.end('success');
     } else {
         res.end(template());
     }
@@ -26,12 +34,11 @@ const parseProductData = parsedData => {
     const title = list[0].split('=')[1];
     const price = list[1].split('=')[1];
     const amount = list[2].split('=')[1];
-
     return { title, price, amount };
 }
 
 
-const products = [
+let products = [
     { title: 'T1', price: '12', amount: '3' },
     { title: 'T2', price: '32', amount: '5' },
     { title: 'T3', price: '6', amount: '12' }
@@ -79,7 +86,7 @@ const template = () => `
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Products List</h5>
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="productsTableId">
                         <thead>
                             <tr>
                                 <th>Title</th>
@@ -93,6 +100,7 @@ const template = () => `
                                     <td>${product.title}</td> 
                                     <td>${product.price}</td> 
                                     <td>${product.amount}</td> 
+                                    <td><button class="btn btn-danger btn-sm" onclick="remove('${product.title}')">Remove</button></td> 
                                 </tr>`
 ).reduce((e1, e2) => `${e1}${e2}`)}
                         </tbody>
@@ -104,6 +112,27 @@ const template = () => `
          <script>
         function login(){
             window.location.href = '/connection';
+        }
+
+        let selectedTitle = null;
+
+        function remove(title){
+        selectedTitle = title;
+            const http = new XMLHttpRequest();
+            http.addEventListener("load", removeListener);
+            http.open("DELETE", "/product?title=" + title);
+            http.send();
+        }
+
+        function removeListener() {
+           // console.log(this.responseText);
+
+           let rows = document.getElementById('productsTableId').rows;
+           for(let i = 0; i < rows.length; i++){
+            if(rows[i].childNodes[0].innerText === selectedTitle){
+                rows[i].remove();
+            }
+           }
         }
         </script>
     </body>
