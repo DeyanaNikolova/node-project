@@ -17,8 +17,7 @@ router.post('/', (req, res)=>{
     res.render('product', {
         products: products,
         pageTitle: 'Product Page',
-        isProductPage: true,
-        isWelcomePage: false,
+        page: 'product',
     });
 });
 
@@ -33,8 +32,7 @@ router.get('/', (req, res)=>{
     res.render('product', {
         products: products,
         pageTitle: 'Product Page',
-        isProductPage: true,
-        isWelcomePage: false,
+        page: 'product',
     });
 });
 

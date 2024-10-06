@@ -5,8 +5,7 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
     res.render('welcome', {
         pageTitle: 'Welcome Page',
-        isWelcomePage: true,
-        isProductPage: false,
+        page: 'welcome',
     });
 });
 
