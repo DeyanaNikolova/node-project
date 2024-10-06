@@ -1,28 +1,33 @@
-const productRoutes = (req, res) => {
-    if (req.method === 'POST') {
-        res.statusCode = 201;
-        const { title, price, amount, postAction } = req.body;
-        if (!products.some(product => product.title === title)) {
-            products.push({ title, price, amount });
-        } else if (postAction === 'update') {
-            products.forEach(product => {
-                if (product.title === title) {
-                    product.price = price;
-                    product.amount = amount;
-                }
-            });
-        }
-        res.end(template());
+const express = require('express');
+const router = express.Router();
 
-    } else if (req.method === 'DELETE') {
-        const title = req.url.split('title=')[1];
-        products = products.filter(product => product.title !== title);
-        res.setHeader('Content-Type', 'text/plain')
-        res.end('success');
-    } else {
-        res.end(template());
+router.post('/', (req, res)=>{
+    res.statusCode = 201;
+    const { title, price, amount, postAction } = req.body;
+    if (!products.some(product => product.title === title)) {
+        products.push({ title, price, amount });
+    } else if (postAction === 'update') {
+        products.forEach(product => {
+            if (product.title === title) {
+                product.price = price;
+                product.amount = amount;
+            }
+        });
     }
-};
+    res.end(template());
+});
+
+router.delete('/', (req, res)=>{
+    const title = req.url.split('title=')[1];
+    products = products.filter(product => product.title !== title);
+    res.setHeader('Content-Type', 'text/plain')
+    res.end('success');
+});
+
+router.get('/', (req, res)=>{
+    res.end(template());
+});
+
 
 let products = [
     { title: 'T1', price: '12', amount: '3' },
@@ -140,4 +145,4 @@ const template = () => `
 </html>
 `;
 
-exports.productRoutes = productRoutes;
+exports.productRoutes = router;

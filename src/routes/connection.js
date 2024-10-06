@@ -1,6 +1,9 @@
-const connectionRoutes = (req, res) => {
+const express = require('express');
+const router = express.Router();
+
+router.get('/', (req, res) => {
     res.end(template);
-};
+});
 
 const template = `
 <html>
@@ -45,4 +48,4 @@ const template = `
 </html>
 `;
 
-exports.connectionRoutes = connectionRoutes;
+exports.connectionRoutes = router;

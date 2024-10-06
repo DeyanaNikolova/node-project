@@ -2,11 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 
-const { welcomeRoutes } = require('./welcome.routes');
-const { connectionRoutes } = require('./connection.routes');
-const { loginRoutes } = require('./login.routes');
-const { notFoundRoutes } = require('./not-founf.routes');
-const { productRoutes } = require('./product.routes');
+const { welcomeRoutes } = require('./routes/welcome');
+const { connectionRoutes } = require('./routes/connection');
+const { loginRoutes } = require('./routes/login');
+const { notFoundRoutes } = require('./routes/not-found');
+const { productRoutes } = require('./routes/product');
 
 const app = express();
 

@@ -1,6 +1,10 @@
-const welcomeRoutes = (req, res, next) => {
+const express = require('express');
+const router = express.Router();
+
+router.get('/', (req, res, next)=>{
     res.end(template);
-};
+});
+
 
 const template = `
 <html>
@@ -31,7 +35,7 @@ const template = `
 </html>
 `;
 
-exports.welcomeRoutes = welcomeRoutes;
+exports.welcomeRoutes = router;
 
 
 
