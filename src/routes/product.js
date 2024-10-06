@@ -102,7 +102,7 @@ const template = () => `
     </div>
 </div>
          <script>
-        function login(){
+        function logout(){
             window.location.href = '/connection';
         }
 
