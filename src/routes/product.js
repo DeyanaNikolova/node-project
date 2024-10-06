@@ -14,7 +14,12 @@ router.post('/', (req, res)=>{
             }
         });
     }
-    res.render('product', {products: products});
+    res.render('product', {
+        products: products,
+        pageTitle: 'Product Page',
+        isProductPage: true,
+        isWelcomePage: false,
+    });
 });
 
 router.delete('/', (req, res)=>{
@@ -25,7 +30,12 @@ router.delete('/', (req, res)=>{
 });
 
 router.get('/', (req, res)=>{
-    res.render('product', {products: products});
+    res.render('product', {
+        products: products,
+        pageTitle: 'Product Page',
+        isProductPage: true,
+        isWelcomePage: false,
+    });
 });
 
 
