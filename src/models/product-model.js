@@ -25,15 +25,15 @@ module.exports = class Product {
         });
     }
 
-    // readFile(){
-    //     fs.readFile(p, (err, fileContent)=>{
-    //         if(err){
-    //             console.log(err);   
-    //         } else{
-    //             console.log(fileContent.toString());
-    //         }
-    //     });
-    // }
+    readFile(){
+        fs.readFile(p, (err, fileContent)=>{
+            if(err){
+                console.log(err);   
+            } else{
+                console.log(fileContent.toString());
+            }
+        });
+    }
 
     add() {
         const { title, price, amount } = this;
