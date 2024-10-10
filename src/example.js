@@ -3,12 +3,11 @@ const path = require('path');
 
 const p = path.join(__dirname, '..', 'data', 'hello.txt');
 
-// fs.writeFile(p, 'hello from example.js', err =>{
-//     console.log(err);   
-// }, ()=>{
-//     console.log('fole modified with success');
-    
-// })
+fs.writeFile(p, 'hello from example.js', err =>{
+    console.log(err);   
+}, ()=>{
+    console.log('file modified with success');    
+});
 
 fs.readFile(p, (err, fileContent)=>{
     if(err){
@@ -16,4 +15,4 @@ fs.readFile(p, (err, fileContent)=>{
     } else{
         console.log(fileContent.toString());
     }
-})
+});
