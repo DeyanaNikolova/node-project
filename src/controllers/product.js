@@ -2,10 +2,12 @@ const Product = require('../models/product-model')
 
 
 module.exports.getProducts = (req, res) => {
-    res.render('product', {
-        products: Product.getProducts(),
-        pageTitle: 'Products Page',
-        page: 'product',
+    Product.getProducts(data =>{
+        res.render('product', {
+            products: data,
+            pageTitle: 'Products Page',
+            page: 'product'
+        });
     });
 }
 
@@ -22,10 +24,12 @@ module.exports.addProduct = (req, res) => {
         product.add();
     }
     
-    res.render('product', {
-        products: Product.getProducts(),
-        pageTitle: 'Products Page',
-        page: 'product'
+    Product.getProducts(data =>{
+        res.render('product', {
+            products: data,
+            pageTitle: 'Products Page',
+            page: 'product'
+        });
     });
 }
 
