@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const p = path.join(__dirname, '..', '..', 'data', 'products.json');
+const productsPath = path.join(__dirname, '..', '..', 'data', 'products.json');
 
 let products = [
     { title: 'T1', price: '12', amount: '3' },
@@ -18,55 +18,54 @@ module.exports = class Product {
         this.amount = amount;
     }
     writeFile(product){
-        fs.writeFile(p, JSON.stringify(product), err =>{
+        fs.writeFile(productsPath, JSON.stringify(product), err =>{
             console.log(err);   
         }, ()=>{
-            console.log('product saved with success');  
+            console.log('product saved with success!');    
         });
     }
 
-    readFile(callback){
-     return fs.readFile(p, (err, fileContent)=>{
-            if(err){
-                console.log(err);   
-                callback([]);
-            } else{
-                callback(JSON.parse(fileContent));
-            }
-        })
-    }
+    // readFile(){
+    //     fs.readFile(p, (err, fileContent)=>{
+    //         if(err){
+    //             console.log(err);   
+    //         } else{
+    //             console.log(fileContent.toString());
+    //         }
+    //     });
+    // }
 
     add() {
         const { title, price, amount } = this;
 
-        this.readFile(data =>{
-            if (!data.some(product => product.title === title)) {
-                data.push(title, price, amount);
-            }
-            this.writeFile(data);
-        }); 
+        this.writeFile({ title, price, amount });
+
+        if(!products.some(product => product.title === title)){
+            products.push({ title, price, amount });
+        } 
     }
 
     update() {
         const { title, price, amount } = this;
 
-        // for (let p of products) {
-        //     if (p.title === title) {
-        //         p.price = price;
-        //         p.amount = amount;
-        //         break;
-        //     }
-        // }
+        for (let p of products) {
+            if (p.title === title) {
+                p.price = price;
+                p.amount = amount;
+                break;
+            }
+        }
     }
 
     static delete(title) {
-        // products = products.filter(product => product.title !== title);
+         products = products.filter(product => product.title !== title);
     }
 
-    static getProducts(calback) {
-        this.readFile(data =>{
-          calback(data);
-        });
+    static getProducts() {
+        // this.readFile(data =>{
+        //   calback(data);
+        // });
+        return products;
     }
 }
 
