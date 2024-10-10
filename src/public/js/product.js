@@ -32,7 +32,8 @@ function update(title) {
             document.getElementById('amount').value = rows[i].childNodes[5].innerText;
         }
     }
+    let postAction = document.getElementById('postActionId');
+    console.log(postAction);
+    postAction.value = 'update';
 }
 
-let postAction = document.getElementById('postActionId');
-postAction.value = 'update';
