@@ -1,4 +1,4 @@
-const Product = require('../models/product-model')
+const Product = require('../models/product-model');
 const { isAuthenticated } = require('../util/auth');
 
 module.exports.getProducts = (req, res) => {
