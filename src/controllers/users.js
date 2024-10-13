@@ -22,22 +22,22 @@ module.exports.getUserProfilePage = (req, res) => {
 
 
 module.exports.addUser = (req, res) => {
-    const {firstname, lastname, login } = req.body;
+    const {firstname, lastname, login, postAction } = req.body;
     const user = new User(firstname, lastname, login);
 
-    // if(postAction === 'update'){
-    //     res.statusCode = 200;
-    //     product.update(()=>{
-    //         Product.getProducts(data =>{
-    //             res.render('product', {
-    //                 products: data,
-    //                 pageTitle: 'Products Page',
-    //                 page: 'product',
-    //                 isAuthenticated: isAuthenticated(req),
-    //             });
-    //         });
-    //     });
-    // } else {
+    if(postAction === 'update'){
+        res.statusCode = 200;
+        user.update(()=>{
+            User.getUsers(data =>{
+                res.render('users', {
+                    users: data,
+                    pageTitle: 'Users Page',
+                    page: 'users', 
+                    isAuthenticated: isAuthenticated(req),
+                });
+            });
+        });
+    } else {
         res.statusCode = 201;
         user.add(()=>{
             User.getUsers(data =>{
@@ -49,7 +49,7 @@ module.exports.addUser = (req, res) => {
                 });
             });
         });
-   // }  
+    }  
 }
 
 module.exports.deleteUser = (req, res) => {
