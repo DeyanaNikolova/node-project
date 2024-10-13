@@ -1,5 +1,5 @@
 const Product = require('../models/product-model')
-
+const { isAuthenticated } = require('../util/auth');
 
 module.exports.getProducts = (req, res) => {
     Product.getProducts(data =>{
@@ -7,7 +7,7 @@ module.exports.getProducts = (req, res) => {
             products: data,
             pageTitle: 'Products Page',
             page: 'product',
-            isAuthenticated: false,
+            isAuthenticated: isAuthenticated(req),
         });
     });
 }
@@ -24,7 +24,7 @@ module.exports.addProduct = (req, res) => {
                     products: data,
                     pageTitle: 'Products Page',
                     page: 'product',
-                    isAuthenticated: false,
+                    isAuthenticated: isAuthenticated(req),
                 });
             });
         });
@@ -36,7 +36,7 @@ module.exports.addProduct = (req, res) => {
                     products: data,
                     pageTitle: 'Products Page',
                     page: 'product', 
-                    isAuthenticated: false,
+                    isAuthenticated: isAuthenticated(req),
                 });
             });
         });
