@@ -11,31 +11,37 @@ module.exports = class Product {
         this.amount = amount;
     }
 
-    add() {
+    add(callback) {
         const { title, price, amount } = this;
 
         readFile(data =>{
             if(!data.some(product => product.title === title)){
                 data.push({ title, price, amount });
             } 
-            writeFile(data);
+            writeFile(data, callback);
         });
     }
 
-    update() {
+    update(callback) {
         const { title, price, amount } = this;
 
-        // for (let p of products) {
-        //     if (p.title === title) {
-        //         p.price = price;
-        //         p.amount = amount;
-        //         break;
-        //     }
-        // }
+        readFile(data =>{
+            for (let p of data) {
+                if (p.title === title) {
+                    p.price = price;
+                    p.amount = amount;
+                    break;
+                }
+            }
+            writeFile(data, callback);
+        });
     }
 
-    static delete(title) {
-        // products = products.filter(product => product.title !== title);
+    static delete(title, callback) {
+        readFile(data =>{
+           data = data.filter(product => product.title !== title);
+            writeFile(data, callback);
+        });
     }
 
     static getProducts(callback) {
@@ -45,16 +51,15 @@ module.exports = class Product {
     }
 }
 
-const writeFile = (product) =>{
+const writeFile = (product, callback) =>{
     fs.writeFile(productsPath, JSON.stringify(product), err =>{
         console.log(err);   
     }, ()=>{
-        console.log('product saved with success!');    
+        callback('product saved with success!');    
     });
 }
 
 const readFile = (callback) => {
-
    return fs.readFile(productsPath, (err, fileContent)=>{
         if(err){
             console.log(err);  

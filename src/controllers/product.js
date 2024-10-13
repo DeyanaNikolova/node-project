@@ -15,27 +15,35 @@ module.exports.addProduct = (req, res) => {
     const { title, price, amount, postAction } = req.body;
     const product = new Product(title, price, amount);
 
-
     if(postAction === 'update'){
         res.statusCode = 200;
-        product.update();
+        product.update(()=>{
+            Product.getProducts(data =>{
+                res.render('product', {
+                    products: data,
+                    pageTitle: 'Products Page',
+                    page: 'product'
+                });
+            });
+        });
     } else {
         res.statusCode = 201;
-        product.add();
-    }
-    
-    Product.getProducts(data =>{
-        res.render('product', {
-            products: data,
-            pageTitle: 'Products Page',
-            page: 'product'
+        product.add(()=>{
+            Product.getProducts(data =>{
+                res.render('product', {
+                    products: data,
+                    pageTitle: 'Products Page',
+                    page: 'product'
+                });
+            });
         });
-    });
+    }  
 }
 
 module.exports.deleteProduct = (req, res) => {
     const title = req.url.split('title=')[1];
-    Product.delete(title);
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('success');
+    Product.delete(title, ()=>{
+        res.setHeader('Content-Type', 'text/plain');
+        res.end('success');
+    });
 }
