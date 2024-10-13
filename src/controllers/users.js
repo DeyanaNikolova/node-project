@@ -4,6 +4,7 @@ module.exports.getUsersPage = (req, res) => {
     res.render('users', {
         pageTitle: 'Users Page',
         page: 'users',
+        users: [{firstname: 'Alex', lastname: 'Doe', login: 'alexDoe'}],
         isAuthenticated: isAuthenticated(req),
     });
 }
