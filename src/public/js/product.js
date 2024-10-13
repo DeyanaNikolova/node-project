@@ -1,7 +1,3 @@
-function logout() {
-    window.location.href = '/connection';
-}
-
 let selectedTitle = null;
 
 function remove(title) {
