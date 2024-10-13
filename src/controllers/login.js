@@ -5,9 +5,9 @@ module.exports.signIn = (req, res)=>{
         res.cookie('isAuthenticated', true);
         res.redirect(302, '/product');
     } else {
+        res.cookie('isAuthenticated', false);
         res.redirect(302, '/connection');
     }
-    res.cookie('isAuthenticated', false);
 
     res.end();
 }
