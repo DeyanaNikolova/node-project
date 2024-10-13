@@ -1,4 +1,4 @@
-RatingModule.exports.signIn = (req, res)=>{
+module.exports.signIn = (req, res)=>{
     const { login, password } = req.body;
 
     if (login && login.length > 2 && password && password.length > 2) {

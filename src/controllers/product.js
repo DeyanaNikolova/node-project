@@ -6,7 +6,8 @@ module.exports.getProducts = (req, res) => {
         res.render('product', {
             products: data,
             pageTitle: 'Products Page',
-            page: 'product'
+            page: 'product',
+            isAuthenticated: false,
         });
     });
 }
@@ -22,7 +23,8 @@ module.exports.addProduct = (req, res) => {
                 res.render('product', {
                     products: data,
                     pageTitle: 'Products Page',
-                    page: 'product'
+                    page: 'product',
+                    isAuthenticated: false,
                 });
             });
         });
@@ -33,7 +35,8 @@ module.exports.addProduct = (req, res) => {
                 res.render('product', {
                     products: data,
                     pageTitle: 'Products Page',
-                    page: 'product'
+                    page: 'product', 
+                    isAuthenticated: false,
                 });
             });
         });

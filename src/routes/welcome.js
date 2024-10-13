@@ -4,7 +4,7 @@ const welcomeController = require('../controllers/welcome');
 
 const router = express.Router();
 
-router.get('/', welcomeController, getWelcomePage);
+router.get('/', welcomeController.getWelcomePage);
 
 exports.welcomeRoutes = router;
 
