@@ -37,7 +37,7 @@ module.exports = class User {
         });
     }
 
-    static getUserByLogin(login,) {
+    static getUserByLogin(login, callback) {
         readFile(data => {
             const user = data.find(u => u.login === login)
             callback(user);
