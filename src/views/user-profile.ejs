@@ -1,3 +1,20 @@
 <%- include('includes/head.ejs') %>
-<h2>Hello from User Profile Page</h2>
-<%- include('includes/end.ejs') %> 
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">User Profile</h5>
+    <div class="mb-3">
+      <label for="firstname" class="form-label">First Name:</label> <%=
+      user.firstname %>
+    </div>
+    <div class="mb-3">
+      <label for="lastname" class="form-label">Last Name:</label> <%=
+      user.lastname %>
+    </div>
+    <div class="mb-3">
+      <label for="login" class="form-label">Login:</label> <%= user.login %>
+    </div>
+  </div>
+</div>
+
+<%- include('includes/end.ejs') %>
