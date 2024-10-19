@@ -9,6 +9,8 @@
           <th>First Name</th>
           <th>Last Name</th>
           <th>Login</th>
+          <th>Role</th>
+
           <th>
             <button
               class="btn btn-outline-success"
@@ -26,6 +28,8 @@
           <td><%= user.firstname %></td>
           <td><%= user.lastname %></td>
           <td><%= user.login %></td>
+          <td><%= user.role %></td>
+
           <td>
             <button
               class="btn btn-danger btn-sm"
@@ -70,44 +74,46 @@
       </div>
       <div class="modal-body">
         <form method="POST" action="users">
-            <div class="mb-3">
-              <label for="firstname" class="form-label">First Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="firstname"
-                name="firstname"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="lastname" class="form-label">Last Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="lastname"
-                name="lastname"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="login" class="form-label">Login</label>
-              <input
-                type="text"
-                class="form-control"
-                id="login"
-                name="login"
-              />
-            </div>
+          <div class="mb-3">
+            <label for="firstname" class="form-label">First Name</label>
             <input
+              type="text"
+              class="form-control"
+              id="firstname"
+              name="firstname"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="lastname" class="form-label">Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="lastname"
+              name="lastname"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="login" class="form-label">Login</label>
+            <input type="text" class="form-control" id="login" name="login" />
+          </div>
+          <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-control" id="role" name="role">
+              <option value="ADMIN">Admin</option>
+              <option value="USER" selected>User</option>
+            </select>
+          </div>
+          <input
             name="postAction"
             type="text"
             value="create"
             id="postActionIdUsers"
             hidden
-            />
-            <div class="mb-3" style="float: right">
-              <button type="submit" class="btn btn-success">Save</button>
-            </div>
-          </form>
+          />
+          <div class="mb-3" style="float: right">
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
