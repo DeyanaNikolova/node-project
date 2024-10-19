@@ -14,10 +14,10 @@ module.exports = class User {
     add(callback) {
         const { firstname, lastname, login } = this;
 
-        readFile(data =>{
-            if(!data.some(user => user.login === login)){
+        readFile(data => {
+            if (!data.some(user => user.login === login)) {
                 data.push({ firstname, lastname, login });
-            } 
+            }
             writeFile(data, callback);
         });
     }
@@ -25,7 +25,7 @@ module.exports = class User {
     update(callback) {
         const { firstname, lastname, login } = this;
 
-        readFile(data =>{
+        readFile(data => {
             for (let user of data) {
                 if (user.login === login) {
                     user.firstname = firstname;
@@ -37,34 +37,41 @@ module.exports = class User {
         });
     }
 
+    static getUserByLogin(login,) {
+        readFile(data => {
+            const user = data.find(u => u.login === login)
+            callback(user);
+        });
+    }
+
     static delete(login, callback) {
-        readFile(data =>{
-           data = data.filter(user => user.login !== login);
+        readFile(data => {
+            data = data.filter(user => user.login !== login);
             writeFile(data, callback);
         });
     }
 
     static getUsers(callback) {
-        readFile(data =>{
-          callback(data);
+        readFile(data => {
+            callback(data);
         });
     }
 }
 
-const writeFile = (user, callback) =>{
-    fs.writeFile(userPath, JSON.stringify(user), err =>{
-        console.log(err);   
-    }, ()=>{
-        callback('user saved with success!');    
+const writeFile = (user, callback) => {
+    fs.writeFile(userPath, JSON.stringify(user), err => {
+        console.log(err);
+    }, () => {
+        callback('user saved with success!');
     });
 }
 
 const readFile = (callback) => {
-   return fs.readFile(userPath, (err, fileContent)=>{
-        if(err){
-            console.log(err);  
+    return fs.readFile(userPath, (err, fileContent) => {
+        if (err) {
+            console.log(err);
             callback([]);
-        } else{
+        } else {
             callback(JSON.parse(fileContent));
         }
     });
