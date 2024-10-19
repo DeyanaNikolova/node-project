@@ -1,7 +1,9 @@
+const { isUserExists } = require('../util/auth');
+
 module.exports.signIn = (req, res)=>{
     const { login, password } = req.body;
 
-    if (login && login.length > 2 && password && password.length > 2) {
+    if (isUserExists(login)) {
         res.cookie('isAuthenticated', true);
         res.cookie('login', login);
 
