@@ -1,8 +1,8 @@
 const User = require('../models/user-model');
-const { isAuthenticated } = require('../util/auth');
+const { isAuthenticated, getConnectedUserLogin } = require('../util/auth');
 
 module.exports.getUsersPage = (req, res) => {
-    User.getUsers(data =>{
+    User.getUsers(data => {
         res.render('users', {
             pageTitle: 'Users Page',
             page: 'users',
@@ -13,48 +13,51 @@ module.exports.getUsersPage = (req, res) => {
 }
 
 module.exports.getUserProfilePage = (req, res) => {
-    res.render('user-profile', {
-        pageTitle: 'User Profile Page',
-        page: '',
-        isAuthenticated: isAuthenticated(req),
+    User.getUserByLogin(getConnectedUserLogin(req), user => {
+        res.render('user-profile', {
+            pageTitle: 'User Profile Page',
+            page: '',
+            user: user,
+            isAuthenticated: isAuthenticated(req),
+        });
     });
 }
 
 
 module.exports.addUser = (req, res) => {
-    const {firstname, lastname, login, postAction } = req.body;
+    const { firstname, lastname, login, postAction } = req.body;
     const user = new User(firstname, lastname, login);
 
-    if(postAction === 'update'){
+    if (postAction === 'update') {
         res.statusCode = 200;
-        user.update(()=>{
-            User.getUsers(data =>{
+        user.update(() => {
+            User.getUsers(data => {
                 res.render('users', {
                     users: data,
                     pageTitle: 'Users Page',
-                    page: 'users', 
+                    page: 'users',
                     isAuthenticated: isAuthenticated(req),
                 });
             });
         });
     } else {
         res.statusCode = 201;
-        user.add(()=>{
-            User.getUsers(data =>{
+        user.add(() => {
+            User.getUsers(data => {
                 res.render('users', {
                     users: data,
                     pageTitle: 'Users Page',
-                    page: 'users', 
+                    page: 'users',
                     isAuthenticated: isAuthenticated(req),
                 });
             });
         });
-    }  
+    }
 }
 
 module.exports.deleteUser = (req, res) => {
     const login = req.url.split('login=')[1];
-    User.delete(login, ()=>{
+    User.delete(login, () => {
         res.setHeader('Content-Type', 'text/plain');
         res.end('success');
     });
