@@ -15,7 +15,7 @@ module.exports = class Product {
     add(callback) {
         const { title, price, amount, creatorLogin } = this;
 
-        readFile(data =>{
+        readFile(creatorLogin, data =>{
             if(!data.some(product => product.title === title)){
                 data.push({ title, price, amount, creatorLogin });
             } 
@@ -26,7 +26,7 @@ module.exports = class Product {
     update(callback) {
         const { title, price, amount, creatorLogin } = this;
 
-        readFile(data =>{
+        readFile(creatorLogin, data =>{
             for (let p of data) {
                 if (p.title === title) {
                     p.price = price;
@@ -40,14 +40,14 @@ module.exports = class Product {
     }
 
     static delete(title, callback) {
-        readFile(data =>{
+        readFile('', data =>{
            data = data.filter(product => product.title !== title);
             writeFile(data, callback);
         });
     }
 
-    static getProducts(callback) {
-        readFile(data =>{
+    static getProducts(creatorLogin, callback) {
+        readFile(creatorLogin ,data =>{
           callback(data);
         });
     }
@@ -61,13 +61,14 @@ const writeFile = (product, callback) =>{
     });
 }
 
-const readFile = (callback) => {
+const readFile = (creatorLogin, callback) => {
    return fs.readFile(productsPath, (err, fileContent)=>{
         if(err){
             console.log(err);  
             callback([]);
         } else{
-            callback(JSON.parse(fileContent));
+            const allProducts = JSON.parse(fileContent);
+            callback(allProducts.filter(p => p.creatorLogin === creatorLogin));
         }
     });
 }
