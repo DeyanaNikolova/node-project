@@ -1,3 +1,5 @@
+const { getUserByLogin } = require('../services/user-service');
+
 module.exports.isAuthenticated = (req) => {
     return extractCookies(req.get('Cookie')).isAuthenticated === 'true';
 }
@@ -6,8 +8,14 @@ module.exports.getConnectedUserLogin = (req)=>{
     return extractCookies(req.get('Cookie')).login;
  }
 
- module.exports.isUserExists = (login) =>{
-    return true;
+ module.exports.isUserExists = (login, callback) =>{
+    getUserByLogin(login, user =>{
+        if(!!user){
+            callback(true);
+        } else{
+            callback(false);
+        }
+    });
  }
 
 const extractCookies = (cookiesStr) => {
