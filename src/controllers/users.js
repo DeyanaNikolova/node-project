@@ -1,5 +1,5 @@
 const User = require('../models/user-model');
-const { isAuthenticated, getConnectedUserLogin } = require('../util/auth');
+const { isAuthenticated, getConnectedUserLogin, isAdmin } = require('../util/auth');
 
 module.exports.getUsersPage = (req, res) => {
  getUsers(req, res);
@@ -12,6 +12,7 @@ module.exports.getUserProfilePage = (req, res) => {
             page: '',
             user: user,
             isAuthenticated: isAuthenticated(req),
+            isAdmin: user.role === 'ADMIN',
         });
     });
 }
@@ -36,12 +37,15 @@ module.exports.addUser = (req, res) => {
 
 const getUsers = (req, res)=>{
     User.getUsers(data => {
-        res.render('users', {
-            users: data,
-            pageTitle: 'Users Page',
-            page: 'users',
-            isAuthenticated: isAuthenticated(req),
-        });
+        isAdmin(req, isAnAdmin =>{
+            res.render('users', {
+                users: data,
+                pageTitle: 'Users Page',
+                page: 'users',
+                isAuthenticated: isAuthenticated(req),
+                isAdmin: isAnAdmin,
+            });
+        });   
     });
 }
 

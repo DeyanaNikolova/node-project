@@ -4,19 +4,48 @@ module.exports.isAuthenticated = (req) => {
     return extractCookies(req.get('Cookie')).isAuthenticated === 'true';
 }
 
-module.exports.getConnectedUserLogin = (req)=>{
+module.exports.getConnectedUserLogin = (req) => {
     return extractCookies(req.get('Cookie')).login;
- }
+}
 
- module.exports.isUserExists = (login, callback) =>{
-    getUserByLogin(login, user =>{
-        if(!!user){
+module.exports.isUserExists = (login, callback) => {
+    getUserByLogin(login, user => {
+        if (!!user) {
             callback(true);
-        } else{
+        } else {
             callback(false);
         }
     });
- }
+}
+
+
+module.exports.isAdmin = (req, callback) => {
+    const login = this.getConnectedUserLogin(req);
+    getUserByLogin(login, user => {
+        if (user && user.role === 'ADMIN') {
+            callback(true);
+        } else {
+            callback(false);
+        }
+    });
+}
+
+module.exports.isAdminConnected = (req, res, next) =>{
+    const login = this.getConnectedUserLogin(req);
+    getUserByLogin(login, user => {
+        if (user && user.role === 'ADMIN') {
+           next();
+        } else {
+            res.render('error', {
+                pageTitle: 'Error Page',
+                page: '',
+                user: user,
+                isAuthenticated: extractCookies(req.get('Cookie')).isAuthenticated === 'true',
+                isAdmin: false,
+            });
+        }
+    });
+}
 
 const extractCookies = (cookiesStr) => {
     const cookiesObj = {};

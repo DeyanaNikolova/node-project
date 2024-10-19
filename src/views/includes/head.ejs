@@ -25,14 +25,17 @@
               >Products</a
             >
           </li>
-          <li>
-            <a
-              href="/users"
-              class="nav-link px-2 <%= page === 'users' ? 'link-dark' : 'link-secondary' %>"
-              ><i class="fa fa-users fa-lg" aria-hidden="true"></i> Users</a
-            >
-          </li>
           <% } %>
+
+          <% if (isAdmin) { %>
+            <li>
+              <a
+                href="/users"
+                class="nav-link px-2 <%= page === 'users' ? 'link-dark' : 'link-secondary' %>"
+                ><i class="fa fa-users fa-lg" aria-hidden="true"></i> Users</a
+              >
+            </li>
+            <% } %>
         </ul>
 
         <div class="col-md-3 text-end">
