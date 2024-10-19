@@ -2,6 +2,14 @@ module.exports.isAuthenticated = (req) => {
     return extractCookies(req.get('Cookie')).isAuthenticated === 'true';
 }
 
+module.exports.getConnectedUserLogin = (req)=>{
+    return extractCookies(req.get('Cookie')).login;
+ }
+
+ module.exports.isUserExists = (login) =>{
+    return true;
+ }
+
 const extractCookies = (cookiesStr) => {
     const cookiesObj = {};
     cookiesStr.split(';').map(c => c.trim()).forEach(c => {
@@ -11,3 +19,4 @@ const extractCookies = (cookiesStr) => {
     });
     return cookiesObj;
 }
+
