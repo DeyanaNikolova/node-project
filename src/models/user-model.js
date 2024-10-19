@@ -5,31 +5,33 @@ const userPath = path.join(__dirname, '..', '..', 'data', 'users.json');
 
 module.exports = class User {
 
-    constructor(firstname, lastname, login) {
+    constructor(firstname, lastname, login, role) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.login = login;
+        this.role = role;
     }
 
     add(callback) {
-        const { firstname, lastname, login } = this;
+        const { firstname, lastname, login, role } = this;
 
         readFile(data => {
             if (!data.some(user => user.login === login)) {
-                data.push({ firstname, lastname, login });
+                data.push({ firstname, lastname, login, role });
             }
             writeFile(data, callback);
         });
     }
 
     update(callback) {
-        const { firstname, lastname, login } = this;
+        const { firstname, lastname, login, role } = this;
 
         readFile(data => {
             for (let user of data) {
                 if (user.login === login) {
                     user.firstname = firstname;
                     user.lastname = lastname;
+                    user.role = role;
                     break;
                 }
             }

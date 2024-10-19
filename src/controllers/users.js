@@ -2,14 +2,7 @@ const User = require('../models/user-model');
 const { isAuthenticated, getConnectedUserLogin } = require('../util/auth');
 
 module.exports.getUsersPage = (req, res) => {
-    User.getUsers(data => {
-        res.render('users', {
-            pageTitle: 'Users Page',
-            page: 'users',
-            users: data,
-            isAuthenticated: isAuthenticated(req),
-        });
-    });
+ getUsers(req, res);
 }
 
 module.exports.getUserProfilePage = (req, res) => {
@@ -25,34 +18,31 @@ module.exports.getUserProfilePage = (req, res) => {
 
 
 module.exports.addUser = (req, res) => {
-    const { firstname, lastname, login, postAction } = req.body;
-    const user = new User(firstname, lastname, login);
+    const { firstname, lastname, login, role, postAction } = req.body;
+    const user = new User(firstname, lastname, login, role);
 
     if (postAction === 'update') {
         res.statusCode = 200;
         user.update(() => {
-            User.getUsers(data => {
-                res.render('users', {
-                    users: data,
-                    pageTitle: 'Users Page',
-                    page: 'users',
-                    isAuthenticated: isAuthenticated(req),
-                });
-            });
+         getUsers(req, res);
         });
     } else {
         res.statusCode = 201;
         user.add(() => {
-            User.getUsers(data => {
-                res.render('users', {
-                    users: data,
-                    pageTitle: 'Users Page',
-                    page: 'users',
-                    isAuthenticated: isAuthenticated(req),
-                });
-            });
+         getUsers(req, res);
         });
     }
+}
+
+const getUsers = (req, res)=>{
+    User.getUsers(data => {
+        res.render('users', {
+            users: data,
+            pageTitle: 'Users Page',
+            page: 'users',
+            isAuthenticated: isAuthenticated(req),
+        });
+    });
 }
 
 module.exports.deleteUser = (req, res) => {
@@ -62,3 +52,4 @@ module.exports.deleteUser = (req, res) => {
         res.end('success');
     });
 }
+
