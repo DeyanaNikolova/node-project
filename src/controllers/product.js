@@ -1,44 +1,24 @@
 const Product = require('../models/product-model');
-const { isAuthenticated } = require('../util/auth');
+const { isAuthenticated, getConnectedUserLogin } = require('../util/auth');
 
 module.exports.getProducts = (req, res) => {
-    Product.getProducts(data =>{
-        res.render('product', {
-            products: data,
-            pageTitle: 'Products Page',
-            page: 'product',
-            isAuthenticated: isAuthenticated(req),
-        });
-    });
+  getProducts(req, res);
 }
 
 module.exports.addProduct = (req, res) => {
     const { title, price, amount, postAction } = req.body;
-    const product = new Product(title, price, amount);
+    const connectedUserLogin = getConnectedUserLogin(req);
+    const product = new Product(title, price, amount, connectedUserLogin);
 
     if(postAction === 'update'){
         res.statusCode = 200;
         product.update(()=>{
-            Product.getProducts(data =>{
-                res.render('product', {
-                    products: data,
-                    pageTitle: 'Products Page',
-                    page: 'product',
-                    isAuthenticated: isAuthenticated(req),
-                });
-            });
+        getProducts(req, res);
         });
     } else {
         res.statusCode = 201;
         product.add(()=>{
-            Product.getProducts(data =>{
-                res.render('product', {
-                    products: data,
-                    pageTitle: 'Products Page',
-                    page: 'product', 
-                    isAuthenticated: isAuthenticated(req),
-                });
-            });
+         getProducts(req, res);
         });
     }  
 }
@@ -48,5 +28,17 @@ module.exports.deleteProduct = (req, res) => {
     Product.delete(title, ()=>{
         res.setHeader('Content-Type', 'text/plain');
         res.end('success');
+    });
+}
+
+const getProducts = (req, res)=>{
+    const connectedUserLogin = getConnectedUserLogin(req);
+    Product.getProducts(connectedUserLogin, data =>{
+        res.render('product', {
+            products: data,
+            pageTitle: 'Products Page',
+            page: 'product',
+            isAuthenticated: isAuthenticated(req),
+        });
     });
 }
