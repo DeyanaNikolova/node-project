@@ -12,14 +12,25 @@ module.exports.addProduct = (req, res) => {
 
     if (postAction === 'update') {
         res.statusCode = 200;
-        product.update()
+        
+        Product.findAll({ where: { title: title } })
+            .then(products => {
+                if (products && products.lenght > 0) {
+                    products[0].price = price;
+                    products[0].amount = amount;
+                    return products[0].save();
+                }
+                return new Promise((_, reject) => {
+                    reject('Product does not exist!')
+                });
+            })
             .then(() => {
                 getProducts(req, res);
             })
-            .catch(err => { console.log(err) })
+            .catch(err => { console.log(err) });
     } else {
         res.statusCode = 201;
-        product.add()
+        Product.create({ title, price, amount, creatorLogin: connectedUserLogin })
             .then(() => {
                 getProducts(req, res);
             })
@@ -29,21 +40,36 @@ module.exports.addProduct = (req, res) => {
 
 module.exports.deleteProduct = (req, res) => {
     const title = req.url.split('title=')[1];
-    Product.delete(title)
-    .then(()=>{
-        res.setHeader('Content-Type', 'text/plain');
-        res.end('success');
-    })
-    .catch(err =>{console.log(err)});
+    res.setHeader('Content-Type', 'text/plain');
+
+    Product.findAll({ where: { title: title } })
+        .then(products => {
+            if (products && products.lenght > 0) {
+                return products[0].destroy();
+            }
+            return new Promise((_, reject) => {
+                reject('Product does not exist!')
+            });
+        })
+        .then(() => {
+            res.statusCode = 200;
+            res.end('success');
+        })
+        .catch(err => {
+            console.log(err);
+            res.statusCode = 404;
+            res.end(err.message);
+        });
 }
 
 const getProducts = (req, res) => {
     const connectedUserLogin = getConnectedUserLogin(req);
-    Product.getProducts(connectedUserLogin)
-        .then(([data, _]) => {
+
+    Product.findAll({ where: { creatorLogin: connectedUserLogin } })
+        .then((products) => {
             isAdmin(req, isAnAdmin => {
                 res.render('product', {
-                    products: data,
+                    products: products,
                     pageTitle: 'Products Page',
                     page: 'product',
                     isAuthenticated: isAuthenticated(req),
