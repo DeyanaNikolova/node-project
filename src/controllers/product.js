@@ -34,7 +34,7 @@ module.exports.addProduct = (req, res) => {
             .then(() => {
                 getProducts(req, res);
             })
-            .catch(err => { console.log(err) })
+            .catch(err => { console.log(err) });
     }
 }
 
