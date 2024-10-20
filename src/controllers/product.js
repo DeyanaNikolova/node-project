@@ -8,14 +8,13 @@ module.exports.getProducts = (req, res) => {
 module.exports.addProduct = (req, res) => {
     const { title, price, amount, postAction } = req.body;
     const connectedUserLogin = getConnectedUserLogin(req);
-    const product = new Product(title, price, amount, connectedUserLogin);
 
     if (postAction === 'update') {
         res.statusCode = 200;
         
         Product.findAll({ where: { title: title } })
             .then(products => {
-                if (products && products.lenght > 0) {
+                if (products && products.length > 0) {
                     products[0].price = price;
                     products[0].amount = amount;
                     return products[0].save();
@@ -39,12 +38,12 @@ module.exports.addProduct = (req, res) => {
 }
 
 module.exports.deleteProduct = (req, res) => {
-    const title = req.url.split('title=')[1];
+    const title = req.params.title;
     res.setHeader('Content-Type', 'text/plain');
 
     Product.findAll({ where: { title: title } })
         .then(products => {
-            if (products && products.lenght > 0) {
+            if (products && products.length > 0) {
                 return products[0].destroy();
             }
             return new Promise((_, reject) => {
