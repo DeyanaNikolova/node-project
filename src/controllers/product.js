@@ -29,7 +29,7 @@ module.exports.addProduct = (req, res) => {
             .catch(err => { console.log(err) });
     } else {
         res.statusCode = 201;
-        Product.create({ title, price, amount, creatorLogin: connectedUserLogin })
+        Product.create({ title, price, amount, userLogin: connectedUserLogin })
             .then(() => {
                 getProducts(req, res);
             })
@@ -64,7 +64,7 @@ module.exports.deleteProduct = (req, res) => {
 const getProducts = (req, res) => {
     const connectedUserLogin = getConnectedUserLogin(req);
 
-    Product.findAll({ where: { creatorLogin: connectedUserLogin } })
+    Product.findAll({ where: { userLogin: connectedUserLogin } })
         .then((products) => {
             isAdmin(req, isAnAdmin => {
                 res.render('product', {

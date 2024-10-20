@@ -9,7 +9,6 @@ const Product = db.define('products', {
     },
     price: DataTypes.DOUBLE,
     amount: DataTypes.INTEGER,
-    creatorLogin: DataTypes.STRING,
 });
 
 module.exports = Product;

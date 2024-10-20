@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const db = require('./util/database');
 const User = require('./models/user-model');
+const Product = require('./models/product-model');
 
 
 const { welcomeRoutes } = require('./routes/welcome');
@@ -27,9 +28,10 @@ app.use('/connection', connectionRoutes);
 app.use('/login', loginRoutes);
 app.use('/product', productRoutes);
 app.use('/users', usersRoutes);
-
 app.use(welcomeRoutes);
 // app.use('*', notFoundRoutes);
+
+Product.belongsTo(User);
 
 db.sync()
     .then(() => {
