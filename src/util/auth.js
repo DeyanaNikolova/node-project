@@ -9,8 +9,8 @@ module.exports.getConnectedUserLogin = (req) => {
 }
 
 module.exports.isUserExists = (login, callback) => {
-    getUserByLogin(login).then(([user, _]) => {
-        if (!!user) {
+    getUserByLogin(login).then(users => {
+        if (users && users.length > 0) {
             callback(true);
         } else {
             callback(false);
@@ -22,8 +22,9 @@ module.exports.isUserExists = (login, callback) => {
 
 module.exports.isAdmin = (req, callback) => {
     const login = this.getConnectedUserLogin(req);
-    getUserByLogin(login).then(([user, _]) => {
-        if (user[0] && user[0].role === 'ADMIN') {
+
+    getUserByLogin(login).then(users => {
+        if (users && users[0] && users[0].role === 'ADMIN') {
             callback(true);
         } else {
             callback(false);
@@ -34,14 +35,14 @@ module.exports.isAdmin = (req, callback) => {
 
 module.exports.isAdminConnected = (req, res, next) => {
     const login = this.getConnectedUserLogin(req);
-    getUserByLogin(login).then(([user, _]) => {
-        if (user[0] && user[0].role === 'ADMIN') {
+    getUserByLogin(login).then(users => {
+        if (users && users[0] && users[0].role === 'ADMIN') {
             next();
         } else {
             res.render('error', {
                 pageTitle: 'Error Page',
                 page: '',
-                user: user,
+                user: users && users[0],
                 isAuthenticated: extractCookies(req.get('Cookie')).isAuthenticated === 'true',
                 isAdmin: false,
             });
@@ -61,7 +62,6 @@ const extractCookies = (cookiesStr) => {
     } catch (err) {
         console.log(err);  
     }
-  
     return cookiesObj;
 }
 
