@@ -12,36 +12,44 @@ module.exports.addProduct = (req, res) => {
 
     if (postAction === 'update') {
         res.statusCode = 200;
-        product.update(() => {
-            getProducts(req, res);
-        });
+        product.update()
+            .then(() => {
+                getProducts(req, res);
+            })
+            .catch(err => { console.log(err) })
     } else {
         res.statusCode = 201;
-        product.add(() => {
-            getProducts(req, res);
-        });
+        product.add()
+            .then(() => {
+                getProducts(req, res);
+            })
+            .catch(err => { console.log(err) })
     }
 }
 
 module.exports.deleteProduct = (req, res) => {
     const title = req.url.split('title=')[1];
-    Product.delete(title, () => {
+    Product.delete(title)
+    .then(()=>{
         res.setHeader('Content-Type', 'text/plain');
         res.end('success');
-    });
+    })
+    .catch(err =>{console.log(err)});
 }
 
 const getProducts = (req, res) => {
     const connectedUserLogin = getConnectedUserLogin(req);
-    Product.getProducts(connectedUserLogin, data => {
-        isAdmin(req, isAnAdmin => {
-            res.render('product', {
-                products: data,
-                pageTitle: 'Products Page',
-                page: 'product',
-                isAuthenticated: isAuthenticated(req),
-                isAdmin: isAnAdmin,
-            });
-        });
-    });
-}
+    Product.getProducts(connectedUserLogin)
+        .then(([data, _]) => {
+            isAdmin(req, isAnAdmin => {
+                res.render('product', {
+                    products: data,
+                    pageTitle: 'Products Page',
+                    page: 'product',
+                    isAuthenticated: isAuthenticated(req),
+                    isAdmin: isAnAdmin,
+                });
+            })
+        })
+        .catch(err => { console.log(err) });
+}     
