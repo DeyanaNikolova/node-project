@@ -4,7 +4,7 @@ function remove(login) {
     selectedLogin = login;
     const http = new XMLHttpRequest();
     http.addEventListener("load", removeListener);
-    http.open("DELETE", "/users?login=" + login);
+    http.open("DELETE", "/users/" + login);
     http.send();
 }
 

@@ -8,7 +8,7 @@ router.get('/profile', usersController.getUserProfilePage);
 
 router.post('/', isAdminConnected, usersController.addUser);
 
-router.delete('/', isAdminConnected, usersController.deleteUser);
+router.delete('/:login', isAdminConnected, usersController.deleteUser);
 
 router.get('/', isAdminConnected, usersController.getUsersPage);
 

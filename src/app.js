@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/connection', connectionRoutes);
 app.use('/login', loginRoutes);
-app.use('/product*', productRoutes);
+app.use('/product', productRoutes);
 app.use('/users', usersRoutes);
 
 app.use(welcomeRoutes);
