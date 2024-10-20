@@ -15,22 +15,26 @@ module.exports.isUserExists = (login, callback) => {
         } else {
             callback(false);
         }
-    })
-        .catch(err => { console.log(err) });
+    });
 }
 
 
 module.exports.isAdmin = (req, callback) => {
-    const login = this.getConnectedUserLogin(req);
+    const login = extractCookies(req.get('Cookie')).login;
 
-    getUserByLogin(login).then(users => {
-        if (users && users[0] && users[0].role === 'ADMIN') {
-            callback(true);
-        } else {
-            callback(false);
-        }
-    })
-        .catch(err => { console.log(err) });
+    if (login) {
+        getUserByLogin(login).then(users => {
+            if (users && users[0] && users[0].role === 'ADMIN') {
+                callback(true);
+            } else {
+                callback(false);
+            }
+        })
+            .catch(err => { console.log(err) });
+    } else {
+        callback(false);
+    }
+
 }
 
 module.exports.isAdminConnected = (req, res, next) => {
@@ -48,7 +52,7 @@ module.exports.isAdminConnected = (req, res, next) => {
             });
         }
     })
-    .catch(err =>{console.log(err)});
+        .catch(err => { console.log(err) });
 }
 
 const extractCookies = (cookiesStr) => {
@@ -60,7 +64,7 @@ const extractCookies = (cookiesStr) => {
             cookiesObj[key] = value;
         });
     } catch (err) {
-        console.log(err);  
+        console.log('Cookie not found!');
     }
     return cookiesObj;
 }

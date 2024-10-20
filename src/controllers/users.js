@@ -6,7 +6,7 @@ module.exports.getUsersPage = (req, res) => {
 }
 
 module.exports.getUserProfilePage = (req, res) => {
-    User.getAll({where: {login: getConnectedUserLogin(req)}})
+    User.findAll({where: {login: getConnectedUserLogin(req)}})
     .then(users =>{
         res.render('user-profile', {
             pageTitle: 'User Profile Page',
@@ -16,6 +16,7 @@ module.exports.getUserProfilePage = (req, res) => {
             isAdmin: users && users[0] && users[0].role === 'ADMIN',
         });
     })
+    .catch(err =>{console.log(err)});
 }
 
 module.exports.addUser = (req, res) => {
@@ -26,15 +27,13 @@ module.exports.addUser = (req, res) => {
 
         User.findAll({ where: { login: login } })
         .then(users => {
-            if (users && users.lenght > 0) {
+            if (users && users.length > 0) {
                 users[0].firstname = firstname;
                 users[0].lastname = lastname;
                 users[0].role = role;
                 return users[0].save();
             }
-            return new Promise((_, reject) => {
-                reject('User does not exist!')
-            });
+            return new Promise((_, reject) => { reject('User does not exist!')});
         })
         .then(() => {
             getUsers(req, res);
@@ -48,30 +47,6 @@ module.exports.addUser = (req, res) => {
         })
         .catch(err => { console.log(err) });
     }
-}
-
-module.exports.deleteUser = (req, res) => {
-    const login = req.url.split('login=')[1];
-    res.setHeader('Content-Type', 'text/plain');
-
-    User.findAll({ where: { login: login } })
-        .then(users => {
-            if (users && users.lenght > 0) {
-                return users[0].destroy();
-            }
-            return new Promise((_, reject) => {
-                reject('User does not exist!')
-            });
-        })
-        .then(() => {
-            res.statusCode = 200;
-            res.end('success');
-        })
-        .catch(err => {
-            console.log(err);
-            res.statusCode = 404;
-            res.end(err.message);
-        });
 }
 
 const getUsers = (req, res) => {
@@ -89,4 +64,29 @@ const getUsers = (req, res) => {
     })
     .catch(err => { console.log(err) });
 }
+
+
+module.exports.deleteUser = (req, res) => {
+    const login = req.params.login;
+    // const login = req.url.split('login=')[1];
+    res.setHeader('Content-Type', 'text/plain');
+
+    User.findAll({ where: { login: login } })
+        .then(users => {
+            if (users && users.length > 0) {
+                return users[0].destroy();
+            }
+            return new Promise((_, reject) => {reject('User does not exist!')});
+        })
+        .then(() => {
+            res.statusCode = 200;
+            res.end('User deleted with success!');
+        })
+        .catch(err => {
+            console.log(err);
+            res.statusCode = 404;
+            res.end(err.message);
+        });
+}
+
 
