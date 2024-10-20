@@ -2,19 +2,20 @@ const User = require('../models/user-model');
 const { isAuthenticated, getConnectedUserLogin, isAdmin } = require('../util/auth');
 
 module.exports.getUsersPage = (req, res) => {
- getUsers(req, res);
+    getUsers(req, res);
 }
 
 module.exports.getUserProfilePage = (req, res) => {
-    User.getUserByLogin(getConnectedUserLogin(req), user => {
+    User.getUserByLogin(getConnectedUserLogin(req))
+    .then(([data, _])=>{
         res.render('user-profile', {
             pageTitle: 'User Profile Page',
             page: '',
-            user: user,
+            user: data[0],
             isAuthenticated: isAuthenticated(req),
-            isAdmin: user.role === 'ADMIN',
+            isAdmin: data[0].role === 'ADMIN',
         });
-    });
+    })
 }
 
 
@@ -24,20 +25,22 @@ module.exports.addUser = (req, res) => {
 
     if (postAction === 'update') {
         res.statusCode = 200;
-        user.update(() => {
-         getUsers(req, res);
-        });
+        user.update().then(() => {
+            getUsers(req, res);
+        })
+            .catch(err => { console.log(err) });
     } else {
         res.statusCode = 201;
-        user.add(() => {
-         getUsers(req, res);
-        });
+        user.add().then(() => {
+            getUsers(req, res);
+        })
+            .catch(err => { console.log(err) });
     }
 }
 
-const getUsers = (req, res)=>{
-    User.getUsers(data => {
-        isAdmin(req, isAnAdmin =>{
+const getUsers = (req, res) => {
+    User.getUsers().then(([data, _]) => {
+        isAdmin(req, isAnAdmin => {
             res.render('users', {
                 users: data,
                 pageTitle: 'Users Page',
@@ -45,8 +48,9 @@ const getUsers = (req, res)=>{
                 isAuthenticated: isAuthenticated(req),
                 isAdmin: isAnAdmin,
             });
-        });   
-    });
+        });
+    })
+        .catch(err => { console.log(err) });
 }
 
 module.exports.deleteUser = (req, res) => {

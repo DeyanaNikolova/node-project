@@ -9,32 +9,34 @@ module.exports.getConnectedUserLogin = (req) => {
 }
 
 module.exports.isUserExists = (login, callback) => {
-    getUserByLogin(login, user => {
+    getUserByLogin(login).then(([user, _]) => {
         if (!!user) {
             callback(true);
         } else {
             callback(false);
         }
-    });
+    })
+        .catch(err => { console.log(err) });
 }
 
 
 module.exports.isAdmin = (req, callback) => {
     const login = this.getConnectedUserLogin(req);
-    getUserByLogin(login, user => {
-        if (user && user.role === 'ADMIN') {
+    getUserByLogin(login).then(([user, _]) => {
+        if (user[0] && user[0].role === 'ADMIN') {
             callback(true);
         } else {
             callback(false);
         }
-    });
+    })
+        .catch(err => { console.log(err) });
 }
 
-module.exports.isAdminConnected = (req, res, next) =>{
+module.exports.isAdminConnected = (req, res, next) => {
     const login = this.getConnectedUserLogin(req);
-    getUserByLogin(login, user => {
-        if (user && user.role === 'ADMIN') {
-           next();
+    getUserByLogin(login).then(([user, _]) => {
+        if (user[0] && user[0].role === 'ADMIN') {
+            next();
         } else {
             res.render('error', {
                 pageTitle: 'Error Page',
@@ -44,7 +46,8 @@ module.exports.isAdminConnected = (req, res, next) =>{
                 isAdmin: false,
             });
         }
-    });
+    })
+    .catch(err =>{console.log(err)});
 }
 
 const extractCookies = (cookiesStr) => {
