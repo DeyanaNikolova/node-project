@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./src/app.js",
   "scripts": {
-    "start:dev": "npm run lint && ts-node ./src/app.ts",
+    "start:dev": "ts-node ./src/app.ts",
     "start:prod": "npm run build && node ./dist/app.js",
     "start:nodemon": "nodemon",
     "build": "npx tsc",
@@ -24,6 +24,7 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "@types/node": "^22.8.1",
     "body-parser": "^1.20.3",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
