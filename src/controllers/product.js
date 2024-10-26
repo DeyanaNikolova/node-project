@@ -52,7 +52,7 @@ module.exports.deleteProduct = (req, res) => {
         })
         .then(() => {
             res.statusCode = 200;
-            res.end('success');
+            res.end('Product deleted with success!');
         })
         .catch(err => {
             console.log(err);
