@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { getUserByLogin } from '../services/user-service';
+import { getUserByLogin } from '../services/users';
 
 
 
