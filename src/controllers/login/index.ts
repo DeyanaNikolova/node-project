@@ -1,4 +1,4 @@
-import { isUserExists } from '../util/auth';
+import { isUserExists } from '../../util/auth';
 import { Request, Response } from 'express';
 
 export function signIn(req: Request, res: Response): void{

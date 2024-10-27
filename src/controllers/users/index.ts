@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import User from '../models/user-model';
-import { isAuthenticated, getConnectedUserLogin, isAdmin } from '../util/auth';
+import User from '../../models/user-model';
+import { isAuthenticated, getConnectedUserLogin, isAdmin } from '../../util/auth';
 
 export function getUsersPage(req: Request, res: Response): void {
     getUsers(req, res);

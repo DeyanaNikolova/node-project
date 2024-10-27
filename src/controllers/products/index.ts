@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import Product from '../models/product-model';
-import { isAuthenticated, getConnectedUserLogin, isAdmin } from '../util/auth';
+import Product from '../../models/product-model';
+import { isAuthenticated, getConnectedUserLogin, isAdmin } from '../../util/auth';
 
 export function getProducts(req: Request, res: Response): void{
     fetchProducts(req, res);
