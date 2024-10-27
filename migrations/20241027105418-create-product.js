@@ -11,11 +11,12 @@ module.exports = {
       },
       title: {
         type: Sequelize.STRING,
-        unique: true
+        unique: true,
       },
       userId: {
         type: Sequelize.INTEGER,
-        references: {model: 'users', key: 'id'},   
+        references: {model: 'users', key: 'id'},  
+        allowNull: false, 
       },
       price: {
         type: Sequelize.DOUBLE
