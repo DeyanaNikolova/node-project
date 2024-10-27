@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import Product from '../../models/product-model';
-import { isAuthenticated, getConnectedUserLogin, isAdmin } from '../../util/auth';
+import Product from '../../../models/product';
+import { isAuthenticated, isAdmin, getConnectedUserId } from '../../util/auth';
 
 export function getProducts(req: Request, res: Response): void{
     fetchProducts(req, res);
@@ -8,17 +8,17 @@ export function getProducts(req: Request, res: Response): void{
 
 export function addProduct(req: Request, res: Response): void{
     const { title, price, amount, postAction } = req.body;
-    const connectedUserLogin = getConnectedUserLogin(req);
+    const connectedUserId = getConnectedUserId(req);
 
     if (postAction === 'update') {
         res.statusCode = 200;
         
-        Product.findAll({ where: { title: title } })
-            .then((products: any[]) => {
-                if (products && products.length > 0) {
-                    products[0].price = price;
-                    products[0].amount = amount;
-                    return products[0].save();
+        Product.findOne({ where: { title: title } })
+            .then((product: any) => {
+                if (product) {
+                    product.price = price;
+                    product.amount = amount;
+                    return product.save();
                 }
                 return new Promise((_, reject) => {
                     reject('Product does not exist!');
@@ -30,7 +30,8 @@ export function addProduct(req: Request, res: Response): void{
             .catch(err => { console.log(err);});
     } else {
         res.statusCode = 201;
-        Product.create({ title, price, amount, userLogin: connectedUserLogin })
+        
+        Product.create({ title, price, amount, userId: connectedUserId })
             .then(() => {
                 fetchProducts(req, res);
             })
@@ -42,10 +43,10 @@ export function deleteProduct(req: Request, res: Response): void {
     const title = req.params.title;
     res.setHeader('Content-Type', 'text/plain');
 
-    Product.findAll({ where: { title: title } })
-        .then(products => {
-            if (products && products.length > 0) {
-                return products[0].destroy();
+    Product.findOne({ where: { title: title } })
+        .then((product: any) => {
+            if (product) {
+                return product.destroy();
             }
             return new Promise((_, reject) => {
                 reject('Product does not exist!');
@@ -63,9 +64,9 @@ export function deleteProduct(req: Request, res: Response): void {
 }
 
 function fetchProducts(req: Request, res: Response): void{
-    const connectedUserLogin = getConnectedUserLogin(req);
-
-    Product.findAll({ where: { userLogin: connectedUserLogin } })
+    const connectedUserId = getConnectedUserId(req);
+ 
+    Product.findAll({ where: { userId: connectedUserId } })
         .then((products) => {
             isAdmin(req, isAnAdmin => {
                 res.render('product', {
