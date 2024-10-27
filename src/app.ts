@@ -7,7 +7,7 @@ import db from './util/database';
 import  welcomeRouter from './routes/welcome';
 import  connectionRouter  from './routes/connection';
 import  loginRouter  from './routes/login';
-import  productRouter  from './routes/product';
+import  productRouter  from './routes/products';
 import  usersRouter  from './routes/users';
 
 import User from './models/user-model';

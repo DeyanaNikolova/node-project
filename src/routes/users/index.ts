@@ -1,6 +1,6 @@
 import express from 'express';
-import { getUserProfilePage, addUser, deleteUser, getUsersPage} from '../controllers/users';
-import { isAdminConnected } from '../util/auth';
+import { getUserProfilePage, addUser, deleteUser, getUsersPage} from '../../controllers/users';
+import { isAdminConnected } from '../../util/auth';
 
 const router = express.Router();
 
