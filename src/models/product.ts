@@ -1,11 +1,18 @@
 import { Model, DataTypes } from 'sequelize';
 
-class Product extends Model {
-  /**
-   * Helper method for defining associations.
-   * This method is not a part of Sequelize lifecycle.
-   * The `models/index` file will call this method automatically.
-   */
+export interface ProductAttributes{
+  id?: number;
+  title: string;
+  price: number;
+  amount: number;
+  userId?: number;
+}
+
+class Product extends Model<ProductAttributes> implements ProductAttributes{
+ 
+  title!: string;
+  price!: number;
+  amount!: number;
 
   static associate(models: any) {
     Product.belongsTo(models.User);

@@ -1,12 +1,19 @@
 import { Model, DataTypes } from 'sequelize';
 
-class User extends Model {
-  /**
-   * Helper method for defining associations.
-   * This method is not a part of Sequelize lifecycle.
-   * The `models/index` file will call this method automatically.
-   */
-  
+export interface UserAttributes{
+  id?: number;
+  firstName: string;
+  lastName: string;
+  login: string;
+  role: string;
+}
+
+class User extends Model<UserAttributes> implements UserAttributes{
+ 
+  firstName!: string;
+  lastName!: string;
+  login!: string;
+  role!: string;
 //  static associate(models: any) {
     // define association here
  // }
