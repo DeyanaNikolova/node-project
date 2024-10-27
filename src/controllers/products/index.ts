@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Product from '../../../models/product';
+import Product, { ProductAttributes } from '../../models/product';
 import { isAuthenticated, isAdmin, getConnectedUserId } from '../../util/auth';
 
 export function getProducts(req: Request, res: Response): void{
@@ -30,8 +30,8 @@ export function addProduct(req: Request, res: Response): void{
             .catch(err => { console.log(err);});
     } else {
         res.statusCode = 201;
-        
-        Product.create({ title, price, amount, userId: connectedUserId })
+        const newProduct: ProductAttributes =  { title, price, amount, userId: connectedUserId };
+        Product.create(newProduct)
             .then(() => {
                 fetchProducts(req, res);
             })
