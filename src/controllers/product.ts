@@ -1,11 +1,12 @@
-const Product = require('../models/product-model');
-const { isAuthenticated, getConnectedUserLogin, isAdmin } = require('../util/auth');
+import { Request, Response } from 'express';
+import Product from '../models/product-model';
+import { isAuthenticated, getConnectedUserLogin, isAdmin } from '../util/auth';
 
-module.exports.getProducts = (req, res) => {
-    getProducts(req, res);
+export function getProducts(req: Request, res: Response): void{
+    fetchProducts(req, res);
 }
 
-module.exports.addProduct = (req, res) => {
+export function addProduct(req: Request, res: Response): void{
     const { title, price, amount, postAction } = req.body;
     const connectedUserLogin = getConnectedUserLogin(req);
 
@@ -13,31 +14,31 @@ module.exports.addProduct = (req, res) => {
         res.statusCode = 200;
         
         Product.findAll({ where: { title: title } })
-            .then(products => {
+            .then((products: any[]) => {
                 if (products && products.length > 0) {
                     products[0].price = price;
                     products[0].amount = amount;
                     return products[0].save();
                 }
                 return new Promise((_, reject) => {
-                    reject('Product does not exist!')
+                    reject('Product does not exist!');
                 });
             })
             .then(() => {
-                getProducts(req, res);
+                fetchProducts(req, res);
             })
-            .catch(err => { console.log(err) });
+            .catch(err => { console.log(err);});
     } else {
         res.statusCode = 201;
         Product.create({ title, price, amount, userLogin: connectedUserLogin })
             .then(() => {
-                getProducts(req, res);
+                fetchProducts(req, res);
             })
-            .catch(err => { console.log(err) });
+            .catch(err => { console.log(err);});
     }
 }
 
-module.exports.deleteProduct = (req, res) => {
+export function deleteProduct(req: Request, res: Response): void {
     const title = req.params.title;
     res.setHeader('Content-Type', 'text/plain');
 
@@ -47,7 +48,7 @@ module.exports.deleteProduct = (req, res) => {
                 return products[0].destroy();
             }
             return new Promise((_, reject) => {
-                reject('Product does not exist!')
+                reject('Product does not exist!');
             });
         })
         .then(() => {
@@ -61,7 +62,7 @@ module.exports.deleteProduct = (req, res) => {
         });
 }
 
-const getProducts = (req, res) => {
+function fetchProducts(req: Request, res: Response): void{
     const connectedUserLogin = getConnectedUserLogin(req);
 
     Product.findAll({ where: { userLogin: connectedUserLogin } })
@@ -74,7 +75,7 @@ const getProducts = (req, res) => {
                     isAuthenticated: isAuthenticated(req),
                     isAdmin: isAnAdmin,
                 });
-            })
+            });
         })
-        .catch(err => { console.log(err) });
+        .catch(err => { console.log(err);});
 }     

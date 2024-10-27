@@ -1,8 +1,10 @@
-const notFoundRoutes = (req, res) => {
+import { Request, Response } from 'express';
+
+function notFoundRoutes(req: Request, res: Response): void {
 
     res.statusCode = 404;
     res.end(template);
-};
+}
 
 const template = `
  <html>
@@ -11,4 +13,4 @@ const template = `
 </html>
 `;
 
-exports.notFoundRoutes = notFoundRoutes;
+export default notFoundRoutes;

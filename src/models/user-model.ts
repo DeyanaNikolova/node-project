@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import db from '../util/database';
 
-const Users = db.define('users', {
+const User = db.define('user', {
     login: {
         type: DataTypes.STRING,
         primaryKey: true,
@@ -13,7 +13,7 @@ const Users = db.define('users', {
 });
 
 
-export default Users;
+export default User;
 
 
 

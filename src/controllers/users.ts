@@ -1,13 +1,14 @@
-const User = require('../models/user-model');
-const { isAuthenticated, getConnectedUserLogin, isAdmin } = require('../util/auth');
+import { Request, Response } from 'express';
+import User from '../models/user-model';
+import { isAuthenticated, getConnectedUserLogin, isAdmin } from '../util/auth';
 
-module.exports.getUsersPage = (req, res) => {
+export function getUsersPage(req: Request, res: Response): void {
     getUsers(req, res);
 }
 
-module.exports.getUserProfilePage = (req, res) => {
+export function getUserProfilePage(req: Request, res: Response): void{
     User.findAll({where: {login: getConnectedUserLogin(req)}})
-    .then(users =>{
+    .then((users: any[]) =>{
         res.render('user-profile', {
             pageTitle: 'User Profile Page',
             page: '',
@@ -16,40 +17,62 @@ module.exports.getUserProfilePage = (req, res) => {
             isAdmin: users && users[0] && users[0].role === 'ADMIN',
         });
     })
-    .catch(err =>{console.log(err)});
+    .catch(err =>{console.log(err);});
 }
 
-module.exports.addUser = (req, res) => {
+export function addUser(req: Request, res: Response): void {
     const { firstname, lastname, login, role, postAction } = req.body;
 
     if (postAction === 'update') {
         res.statusCode = 200;
 
         User.findAll({ where: { login: login } })
-        .then(users => {
+        .then((users: any[]) => {
             if (users && users.length > 0) {
                 users[0].firstname = firstname;
                 users[0].lastname = lastname;
                 users[0].role = role;
                 return users[0].save();
             }
-            return new Promise((_, reject) => { reject('User does not exist!')});
+            return new Promise((_, reject) => { reject('User does not exist!');});
         })
         .then(() => {
             getUsers(req, res);
         })
-        .catch(err => { console.log(err) });
+        .catch(err => { console.log(err);});
     } else {
         res.statusCode = 201;
         User.create({ firstname, lastname, login, role })
         .then(() => {
             getUsers(req, res);
         })
-        .catch(err => { console.log(err) });
+        .catch(err => { console.log(err);});
     }
 }
 
-const getUsers = (req, res) => {
+export function deleteUser(req: Request, res: Response): void {
+    const login = req.params.login;
+    res.setHeader('Content-Type', 'text/plain');
+
+    User.findAll({ where: { login: login } })
+        .then(users => {
+            if (users && users.length > 0) {
+                return users[0].destroy();
+            }
+            return new Promise((_, reject) => {reject('User does not exist!');});
+        })
+        .then(() => {
+            res.statusCode = 200;
+            res.end('User deleted with success!');
+        })
+        .catch(err => {
+            console.log(err);
+            res.statusCode = 404;
+            res.end(err.message);
+        });
+}
+
+function getUsers(req: Request, res: Response): void {
     User.findAll()
     .then((users) => {
         isAdmin(req, isAnAdmin => {
@@ -62,31 +85,8 @@ const getUsers = (req, res) => {
             });
         });
     })
-    .catch(err => { console.log(err) });
+    .catch(err => { console.log(err);});
 }
 
-
-module.exports.deleteUser = (req, res) => {
-    const login = req.params.login;
-    // const login = req.url.split('login=')[1];
-    res.setHeader('Content-Type', 'text/plain');
-
-    User.findAll({ where: { login: login } })
-        .then(users => {
-            if (users && users.length > 0) {
-                return users[0].destroy();
-            }
-            return new Promise((_, reject) => {reject('User does not exist!')});
-        })
-        .then(() => {
-            res.statusCode = 200;
-            res.end('User deleted with success!');
-        })
-        .catch(err => {
-            console.log(err);
-            res.statusCode = 404;
-            res.end(err.message);
-        });
-}
 
 

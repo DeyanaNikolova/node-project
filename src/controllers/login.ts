@@ -1,7 +1,8 @@
-const { isUserExists } = require('../util/auth');
+import { isUserExists } from '../util/auth';
+import { Request, Response } from 'express';
 
-module.exports.signIn = (req, res) => {
-    const { login, password } = req.body;
+export function signIn(req: Request, res: Response): void{
+    const { login } = req.body;
 
     isUserExists(login, isExisting => {
         if (isExisting) {
