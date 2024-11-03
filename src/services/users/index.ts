@@ -1,4 +1,4 @@
-import User from '../../models/user';
+import User from '../../../models/user';
 
 export function getUserByLogin(login: string): Promise<any> {
   return User.findOne({ where: { login: login } });
