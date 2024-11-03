@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User from '../../../models/user';
+import User, { UserAttributes } from '../../../models/user';
 import { isAuthenticated, getConnectedUserId, isAdmin } from '../../util/auth';
 
 export function getUsersPage(req: Request, res: Response): void {
@@ -42,7 +42,13 @@ export function addUser(req: Request, res: Response): void {
         .catch(err => { console.log(err);});
     } else {
         res.statusCode = 201;
-        User.create({ firstName, lastName, login, role })
+        const newUser: UserAttributes = {
+            firstName: firstName,
+            lastName: lastName,
+            login: login,
+            role: role
+        };
+        User.create(newUser)
         .then(() => {
             getUsers(req, res);
         })
