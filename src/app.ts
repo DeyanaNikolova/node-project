@@ -1,6 +1,6 @@
 /* eslint-disable */
 const db = require('../models/index');
-
+// import db from '../src/models/index';
 import express from 'express';
 
 import bodyParser from 'body-parser';
