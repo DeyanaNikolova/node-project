@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Product, { ProductAttributes } from '../../../models/product';
+import Product, { ProductAttributes } from '../../models/product';
 import { isAuthenticated, isAdmin, getConnectedUserId } from '../../util/auth';
 
 export function getProducts(req: Request, res: Response): void{

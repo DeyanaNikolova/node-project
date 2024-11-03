@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User, { UserAttributes } from '../../../models/user';
+import User, { UserAttributes } from '../../models/user';
 import { isAuthenticated, getConnectedUserId, isAdmin } from '../../util/auth';
 
 export function getUsersPage(req: Request, res: Response): void {
