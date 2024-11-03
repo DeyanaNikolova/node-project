@@ -22,8 +22,8 @@ function update(login) {
     let rows = document.getElementById('usersTableId').rows;
     for (let i = 0; i < rows.length; i++) {
         if (rows[i].childNodes[5].innerText === login) {
-            document.getElementById('firstname').value = rows[i].childNodes[1].innerText;
-            document.getElementById('lastname').value = rows[i].childNodes[3].innerText;
+            document.getElementById('firstName').value = rows[i].childNodes[1].innerText;
+            document.getElementById('lastName').value = rows[i].childNodes[3].innerText;
             document.getElementById('login').value = rows[i].childNodes[5].innerText;
             document.getElementById('role').value = rows[i].childNodes[7].innerText;
 
