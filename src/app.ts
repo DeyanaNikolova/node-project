@@ -1,10 +1,9 @@
-/* eslint-disable */
-const db = require('../models/index');
-// import db from '../src/models/index';
 import express from 'express';
 
 import bodyParser from 'body-parser';
 import path from 'path';
+
+import db from '../db';
 
 import  welcomeRouter from './routes/welcome';
 import  connectionRouter  from './routes/connection';
