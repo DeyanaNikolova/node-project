@@ -14,18 +14,36 @@ class User extends Model<UserAttributes> implements UserAttributes{
   lastName!: string;
   login!: string;
   role!: string;
-//  static associate(models: any) {
+  // static associate(models: any) {
     // define association here
- // }
+  // }
 }
 
 module.exports.init = (sequelize: any) => {
 
   User.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    login: DataTypes.STRING,
-    role: DataTypes.STRING
+    firstName: {
+      type: DataTypes.STRING,
+      validate: {
+        len: [3, 25]
+      }
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      validate: {
+        len: [3, 25]
+      }
+    },
+    login: {
+      type: DataTypes.STRING,
+      validate: {
+        len: [3, 15]
+      }
+    },
+    role: {
+      type: DataTypes.STRING,
+     allowNull: false,
+    }
   }, {
     sequelize,
     modelName: 'User',
