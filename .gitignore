@@ -3,6 +3,9 @@ npm-debug.log
 yarn-error.log
 /frontend/node_modules
 
+
 .env
 /dist
 
+/frontend/.angular/cache/17.3.11/frontend/.tsbuildinfo
+frontend/.angular/cache/17.3.11/frontend/.tsbuildinfo
