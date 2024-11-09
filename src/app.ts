@@ -1,4 +1,6 @@
 import express from 'express';
+import cors from 'cors';
+
 import path from 'path';
 
 import db from '../db';
@@ -15,6 +17,7 @@ app.set('view engine', 'ejs');
 app.set('views', './src/views');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 app.use(express.json());
 
 app.use('/connection', connectionRouter);
