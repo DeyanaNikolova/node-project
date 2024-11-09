@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Product, { ProductAttributes } from '../../models/product';
-import { getConnectedUserId } from '../../util/auth';
+import { getConnectedUserId, isAdmin, isAuthenticated } from '../../util/auth';
 
 export function getProducts(req: Request, res: Response): void {
   fetchProducts(req, res);
@@ -51,7 +51,6 @@ export function updateProduct(req: Request, res: Response): void {
 
 export function deleteProduct(req: Request, res: Response): void {
   const title = req.params.title;
- // res.setHeader('Content-Type', 'text/plain');
 
   Product.findOne({ where: { title: title } })
     .then((product: any) => {
@@ -76,17 +75,19 @@ function fetchProducts(req: Request, res: Response): void {
 
   Product.findAll({ where: { userId: connectedUserId } })
     .then((products) => {
-        res.json(products);
-    //  isAdmin(req, isAdmin=> {
-       
+      
+      isAdmin(req, isAdmin=> {
+        // isAdmin: isAnAdmin;
+        // isAuthenticated: isAuthenticated(req);
+        res.json({products, isAdmin, isAuthenticated});
         // res.render('product', {
         //     products: products,
         //     pageTitle: 'Products Page',
         //     page: 'product',
-        //     isAuthenticated: isAuthenticated(req),
-        //     isAdmin: isAnAdmin,
+          //  isAuthenticated: isAuthenticated(req),
+          //    isAdmin: isAnAdmin
         // });
-    //  });
+      });
     })
     .catch((err) => {
       console.log(err);

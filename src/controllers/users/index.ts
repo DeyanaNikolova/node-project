@@ -1,65 +1,66 @@
 import { Request, Response } from 'express';
-import User, { UserAttributes } from '../../models/user';
-import { isAuthenticated, getConnectedUserId, isAdmin } from '../../util/auth';
+import User from '../../models/user';
+import { getConnectedUserId, isAuthenticated, isAdmin } from '../../util/auth';
 
 export function getUsersPage(req: Request, res: Response): void {
     getUsers(req, res);
 }
 
-export function getUserProfilePage(req: Request, res: Response): void{
+export function getUserProfile(req: Request, res: Response): void{
     User.findOne({where: {id: getConnectedUserId(req)}})
     .then((user: any) =>{
-        res.render('user-profile', {
-            pageTitle: 'User Profile Page',
-            page: '',
-            user: user,
-            isAuthenticated: isAuthenticated(req),
-            isAdmin: user && user.role === 'ADMIN',
-        });
+        res.json(user);
+        // res.render('user-profile', {
+        //     pageTitle: 'User Profile Page',
+        //     page: '',
+        //     user: user,
+        //     isAuthenticated: isAuthenticated(req),
+        //     isAdmin: user && user.role === 'ADMIN',
+        // });
     })
-    .catch(err =>{console.log(err);});
+    .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
 }
 
-export function addUser(req: Request, res: Response): void {
-    const { firstName, lastName, login, role, postAction } = req.body;
+export function createUser(req: Request, res: Response): void {
+    const { firstName, lastName, login, role } = req.body;
+    
+    User.create({ firstName, lastName, login, role })
+    .then(() => {
+        getUsers(req, res);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });  
+}
 
-    if (postAction === 'update') {
-        res.statusCode = 200;
-
-        User.findOne({ where: { login: login } })
+export function updateUser(req: Request, res: Response): void {
+    const {firstName, lastName, login, role} = req.body;
+    User.findOne({where: {login: login}})
         .then((user: any) => {
-            if (user) {
+            if(user){
                 user.firstName = firstName;
                 user.lastName = lastName;
                 user.role = role;
                 return user.save();
             }
-            return new Promise((_, reject) => { reject('User does not exist!');});
+            return new Promise((_, reject) => {reject({message: 'User does not exist!'});});
         })
         .then(() => {
             getUsers(req, res);
         })
-        .catch(err => { console.log(err);});
-    } else {
-        res.statusCode = 201;
-        const newUser: UserAttributes = {
-            firstName: firstName,
-            lastName: lastName,
-            login: login,
-            role: role
-        };
-        User.create(newUser)
-        .then(() => {
-            getUsers(req, res);
-        })
-        .catch(err => { console.log(err);});
-    }
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 }
 
 export function deleteUser(req: Request, res: Response): void {
     const login = req.params.login;
-    res.setHeader('Content-Type', 'text/plain');
-
+   
     User.findOne({ where: { login: login } })
         .then((user: any) => {
             if (user) {
@@ -68,30 +69,32 @@ export function deleteUser(req: Request, res: Response): void {
             return new Promise((_, reject) => {reject('User does not exist!');});
         })
         .then(() => {
-            res.statusCode = 200;
-            res.end('User deleted with success!');
+            res.status(204).end();
         })
         .catch(err => {
             console.log(err);
-            res.statusCode = 404;
-            res.end(err.message);
+            res.status(404).json(err);
         });
 }
 
 function getUsers(req: Request, res: Response): void {
     User.findAll()
     .then((users) => {
-        isAdmin(req, isAnAdmin => {
-            res.render('users', {
-                users: users,
-                pageTitle: 'Users Page',
-                page: 'users',
-                isAuthenticated: isAuthenticated(req),
-                isAdmin: isAnAdmin,
-            });
-        });
+         isAdmin(req, isAdmin=> {
+            res.json({users, isAdmin, isAuthenticated});
+            // res.render('users', {
+            //     users: users,
+            //     pageTitle: 'Users Page',
+            //     page: 'users',
+            //     isAuthenticated: isAuthenticated(req),
+            //     isAdmin: isAnAdmin,
+            // });
+         });
     })
-    .catch(err => { console.log(err);});
+    .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      }); 
 }
 
 
