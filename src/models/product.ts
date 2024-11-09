@@ -23,9 +23,20 @@ class Product extends Model<ProductAttributes> implements ProductAttributes{
 module.exports.init = (sequelize: any) => {
  
   Product.init({
-    title: DataTypes.STRING,
-    price: DataTypes.DOUBLE,
-    amount: DataTypes.INTEGER,
+    title: {
+      type: DataTypes.STRING,
+      validate: {
+        len:[2, 25]
+      }
+    },
+    price: {
+      type: DataTypes.DOUBLE,
+      allowNull: false,
+    },
+    amount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     userId: DataTypes.INTEGER
   }, {
     sequelize,
