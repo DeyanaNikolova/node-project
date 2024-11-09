@@ -26,11 +26,18 @@ export class ConnectionComponent {
   submit(){
     const value: any  = this.connectionForm.value;
     console.log(value);
-    this.connectionService.login(value).subscribe(res =>{
-      console.log(res); 
-
-      if(res.success){
-        this.router.navigate(['/products']);
+    this.connectionService.login(value).subscribe({
+      next: res =>{
+        if(res.isAuthenticated){
+          sessionStorage.setItem('userId', res.userId);
+          sessionStorage.setItem('isAuthenticated', res.isAuthenticated);
+          this.router.navigate(['/products']);
+        }
+      },
+      error: err =>{
+        sessionStorage.setItem('userId', '');
+        sessionStorage.setItem('isAuthenticated', 'false');
+        console.log(err);
       }
     });
   }
