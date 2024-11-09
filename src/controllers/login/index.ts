@@ -18,6 +18,5 @@ export function signIn(req: Request, res: Response): void{
 
           //  res.redirect(302, '/connection');
         }
-        res.end();
     });
 }
