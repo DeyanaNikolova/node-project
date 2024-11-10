@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ConnectionService } from './connection.service';
+import { ConnectionService } from '../../services/connection.service';
 import { Router } from '@angular/router';
 
 
