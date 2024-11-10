@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ConnectionService } from '../../services/connection.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -16,7 +17,8 @@ export class ConnectionComponent {
 
   constructor(
     private connectionService: ConnectionService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
   ) {}
   connectionForm = new FormGroup({
     login: new FormControl('', Validators.required),
@@ -29,14 +31,12 @@ export class ConnectionComponent {
     this.connectionService.login(value).subscribe({
       next: res =>{
         if(res.isAuthenticated){
-          sessionStorage.setItem('userId', res.userId);
-          sessionStorage.setItem('isAuthenticated', res.isAuthenticated);
+          this.authService.setAuthConf(res);
           this.router.navigate(['/products']);
         }
       },
       error: err =>{
-        sessionStorage.setItem('userId', '');
-        sessionStorage.setItem('isAuthenticated', 'false');
+        this.authService.setAuthConf({userId: 0, isAuthenticated: false});
         console.log(err);
       }
     });
