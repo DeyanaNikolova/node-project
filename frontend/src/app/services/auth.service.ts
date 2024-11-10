@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AuthConf } from '../models/auth-conf.model';
-import { ReturnStatement } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'

@@ -14,7 +14,7 @@ const db: {
   [key: string]: any,
 } = {};
 
-let sequelize: object ={};
+let sequelize: any;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable] as string, config);
 } else {

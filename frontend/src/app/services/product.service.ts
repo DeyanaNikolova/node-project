@@ -17,6 +17,7 @@ export class ProductService {
     const httpOptions = {
       headers: new HttpHeaders().set('Set-Cookie', 'userId=1')
     };
+    
     return this.http.get<Product[]>(this.url, httpOptions); 
   }
 

@@ -29,18 +29,37 @@ export class ConnectionComponent {
 
   submit(){
     const value = this.connectionForm.value;
-    console.log(value);
-    this.connectionService.login(value).subscribe({
-      next: res =>{
+    this.connectionService.login(value)
+    .subscribe({
+      next: res => {
         if(res.isAuthenticated){
           this.authService.setAuthConf(res);
           this.router.navigate(['/products']);
         }
       },
-      error: err =>{
+      error: err => {
         this.authService.setAuthConf({userId: 0, isAuthenticated: false, isAdmin: false});
         console.log(err);
       }
     });
   }
+
+
+  // submit(){
+  //   const value = this.connectionForm.value;
+  //   console.log(value);
+  //   this.connectionService.login(value).subscribe({
+  //     next: res =>{
+  //       if(res.isAuthenticated){
+  //         this.authService.setAuthConf(res);
+  //         console.log(this.authService.setAuthConf(res));
+  //         this.router.navigate(['/products']);
+  //       }
+  //     },
+  //     error: err =>{
+  //       this.authService.setAuthConf({userId: 0, isAuthenticated: false, isAdmin: false});
+  //       console.log(err);
+  //     }
+  //   });
+  // }
 }
