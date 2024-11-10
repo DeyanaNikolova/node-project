@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AuthConf } from '../models/auth-conf.model';
 
 @Injectable({
   providedIn: 'root'
@@ -6,4 +7,17 @@ import { Injectable } from '@angular/core';
 export class AuthService {
 
   constructor() { }
+
+  setAuthConf(authConf: AuthConf){
+    sessionStorage.setItem('userId', authConf.userId + '');
+    sessionStorage.setItem('isAuthenticated', authConf.isAuthenticated + '');
+  }
+
+  getUserId(): number{
+    return Number(sessionStorage.getItem('userId'));
+  }
+
+  isAuthenticated(): boolean{
+    return sessionStorage.getItem('isAuthenticated') === 'true';
+  }
 }
