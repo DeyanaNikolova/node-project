@@ -12,7 +12,7 @@
       <button
         type="button"
         class="btn btn-outline-primary me-2"
-        *ngIf="isAuthenticated()"
+        *ngIf="isAuthenticated"
         onclick="userProfile()"
       >
         <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i> Profile
@@ -20,7 +20,7 @@
       <button
         type="button"
         class="btn btn-outline-danger me-2"
-        *ngIf="isAuthenticated()"
+        *ngIf="isAuthenticated"
         (click)="logout()">
         Logout <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>
       </button>
@@ -28,14 +28,14 @@
         type="button"
         class="btn btn-outline-primary me-2"
         (click)="login()"
-        *ngIf="!isAuthenticated()"
+        *ngIf="!isAuthenticated"
       >
         <i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login
       </button>
       <button 
       type="button"
        class="btn btn-outline-success"
-       *ngIf="!isAuthenticated()"
+       *ngIf="!isAuthenticated"
        >
         <i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Sign-up
       </button>

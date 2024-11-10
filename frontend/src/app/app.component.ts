@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
+import { AuthService } from './services/auth.service';
 
 
 @Component({
@@ -13,23 +14,24 @@ import { NgIf } from '@angular/common';
 })
 export class AppComponent {
 
-constructor(private router: Router) {
+constructor(
+  private router: Router,
+  private authService: AuthService,
+) {
 
 }
 
   login(){
-    sessionStorage.setItem('isAuthenticated', 'false');
-    sessionStorage.setItem('userId', '');
+    this.authService.setAuthConf({userId: 0, isAuthenticated: false});
     this.router.navigate(['/connection']);
   }
 
   logout(){
-    sessionStorage.setItem('isAuthenticated', 'false');
-    sessionStorage.setItem('userId', '');
+    this.authService.setAuthConf({userId: 0, isAuthenticated: false});
     this.router.navigate(['/connection']);
   }
 
-  isAuthenticated(){
-    return sessionStorage.getItem('isAuthenticated') === 'true';
+  get isAuthenticated(){
+    return this.authService.isAuthenticated();
   }
 }
