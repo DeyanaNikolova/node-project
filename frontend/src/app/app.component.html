@@ -13,7 +13,7 @@
         type="button"
         class="btn btn-outline-primary me-2"
         *ngIf="isAuthenticated"
-        onclick="userProfile()"
+        (click)="userProfile()"
       >
         <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i> Profile
       </button>
