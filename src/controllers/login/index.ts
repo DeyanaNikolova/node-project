@@ -6,9 +6,15 @@ export function signIn(req: Request, res: Response): void{
 
     isUserExists(login, (isExisting: boolean, userId?: number) => {
         if (isExisting) {
-            res.json({userId: userId, isAuthenticated: true});
+           res.cookie('isAuthenticated', true);
+           res.cookie('userId', userId);
+           res.json({success: true});
         } else {
-            res.status(302).json({userId: null, isAuthenticated: false});
+            res.cookie('isAuthenticated', false);
+            res.cookie('userId', '');
+            res.status(302).json({success: false});
+
+            // res.status(302).json({userId: null, isAuthenticated: false});
         }
     });
 }

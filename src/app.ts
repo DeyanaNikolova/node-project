@@ -32,5 +32,5 @@ db.sequelize.sync()
             console.log('Server is running on port 3000 ...');
         });
     })
-    .catch((err: string) => { console.log(err);});
+    .catch((err: any) => { console.log(err);});
 

@@ -14,12 +14,13 @@ class User extends Model<UserAttributes> implements UserAttributes{
   lastName!: string;
   login!: string;
   role!: string;
-  // static associate(models: any) {
+
+   static associate(models: any) {
     // define association here
-  // }
+  }
 }
 
-module.exports.init = (sequelize: any) => {
+export function init (sequelize: any) {
 
   User.init({
     firstName: {
@@ -49,6 +50,6 @@ module.exports.init = (sequelize: any) => {
     modelName: 'User',
   });
   return User;
-};
+}
 
 export default User;

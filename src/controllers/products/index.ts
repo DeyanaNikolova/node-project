@@ -76,10 +76,8 @@ function fetchProducts(req: Request, res: Response): void {
   Product.findAll({ where: { userId: connectedUserId } })
     .then((products) => {
       
-      isAdmin(req, isAdmin=> {
-        // isAdmin: isAnAdmin;
-        // isAuthenticated: isAuthenticated(req);
-        res.json({products, isAdmin, isAuthenticated});
+      isAdmin(req, isAnAdmin => {
+        res.json(products);
         // res.render('product', {
         //     products: products,
         //     pageTitle: 'Products Page',

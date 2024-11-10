@@ -13,14 +13,12 @@ class Product extends Model<ProductAttributes> implements ProductAttributes{
   title!: string;
   price!: number;
   amount!: number;
-  userId?: number;
 
   static associate(models: any) {
     Product.belongsTo(models.User);
   }
 }
-
-module.exports.init = (sequelize: any) => {
+ export function init(sequelize: any) {
  
   Product.init({
     title: {
@@ -43,6 +41,6 @@ module.exports.init = (sequelize: any) => {
     modelName: 'Product',
   });
   return Product;
-};
+}
 
 export default Product;

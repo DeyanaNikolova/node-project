@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../../models/user';
-import { getConnectedUserId } from '../../util/auth';
+import { isAuthenticated, getConnectedUserId, isAdmin } from '../../util/auth';
 
 export function getUsersPage(req: Request, res: Response): void {
     getUsers(req, res);
@@ -77,26 +77,24 @@ export function deleteUser(req: Request, res: Response): void {
         });
 }
 
+
 function getUsers(req: Request, res: Response): void {
-    User.findAll()
-    .then((users) => {
-      //  isAdmin(req, isAnAdmin) =>{
-            
+    User.findAll().then(users => {
+        isAdmin(req, isAnAdmin => {
             res.json(users);
-            // res.render('users', {
-            //     users: users,
-            //     pageTitle: 'Users Page',
-            //     page: 'users',
-            //     isAuthenticated: isAuthenticated(req),
-            //     isAdmin: isAnAdmin,
-          //  });
-       //  });
+            /*res.render('users', {
+                users: users,
+                pageTitle: 'Users Page',
+                page: 'users',
+                isAuthenticated: isAuthenticated(req),
+                isAdmin: isAnAdmin,
+            });*/
+        });
     })
-    .catch((err) => {
+    .catch(err => {
         console.log(err);
         res.status(500).json(err);
-      }); 
+    });
 }
-
 
 
