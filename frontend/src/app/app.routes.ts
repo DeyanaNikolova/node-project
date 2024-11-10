@@ -6,7 +6,7 @@ import { UserComponent } from './components/user/user.component';
 
 export const routes: Routes = [
     {path: 'connection', component: ConnectionComponent},
-    {path: '', component: HomeComponent},
     {path: 'products', component: ProductComponent},
     {path: 'users', component: UserComponent},
+    {path: '', component: HomeComponent},
 ];
