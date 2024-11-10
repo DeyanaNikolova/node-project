@@ -22,11 +22,11 @@ export function isUserExists(login: string, callback: (isOk: boolean, userId?: n
 }
 
 
-export function isAdmin(req: Request, callback: (isOk: boolean) => void, userId?: number): void{
-    const id = extractCookies(req).userId;
+export function isAdmin(req: Request, callback: (isOk: boolean) => void): void{
+    const userId = extractCookies(req).userId;
 
-    if (id) {
-        getUserById(id).then(user => {
+    if (userId) {
+        getUserById(userId).then(user => {
             
             if (user && user.role === 'ADMIN') {
                 callback(true);
