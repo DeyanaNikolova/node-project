@@ -64,6 +64,8 @@ function extractCookies(req: Request): {isAuthenticated: boolean, userId: number
         let cookiesStr = req.get('Cookie') as string;
         if(!cookiesStr){
             const cookiesList =  req.get('Set-Cookie');
+            console.log(cookiesList);
+            
             cookiesStr = cookiesList && cookiesList.length>0 ? (cookiesList[0] as string) : '';
         }
         cookiesStr.split(';').map(c => c.trim()).forEach(c => {
