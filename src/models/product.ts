@@ -24,7 +24,7 @@ class Product extends Model<ProductAttributes> implements ProductAttributes{
     title: {
       type: DataTypes.STRING,
       validate: {
-        len:[2, 25]
+        len:[3, 25]
       }
     },
     price: {
@@ -35,7 +35,6 @@ class Product extends Model<ProductAttributes> implements ProductAttributes{
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    userId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Product',
