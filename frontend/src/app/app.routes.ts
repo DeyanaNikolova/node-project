@@ -12,3 +12,4 @@ export const routes: Routes = [
     {path: 'user-profile', component: UserProfileComponent},
     {path: '', component: HomeComponent},
 ];
+
