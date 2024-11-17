@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product.model';
-import { environment } from '../../../environments/environments';
+import { environment } from '../../environments/environments';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class ProductService {
       headers: new HttpHeaders().set('Set-Cookie', 'userId=1')
     };
     
-    return this.http.get<Product[]>(this.url, httpOptions); 
+    return this.http.get<Product[]>(this.url,); 
   }
 
   update(product: Product): Observable<any> {
