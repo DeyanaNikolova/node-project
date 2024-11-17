@@ -1,54 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
-import { CommonModule,NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { AuthService } from './services/auth.service';
-
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, CommonModule, NgIf],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit{
-
+export class AppComponent {
   // isConnectionPage = false;
 
-constructor(
-  private router: Router,
-  private authService: AuthService,
-) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
-ngOnInit(): void {
-  // this.router.events.subscribe((res: any) =>{
-
-  //   if(res && res.url){
-  //     this.isConnectionPage = res.url.endsWith('connection');
-  //   }
-  // });
-}
-
-userProfile(){
-  this.router.navigate(['/user-profile']);
-}
-
-  login(){
-    this.authService.setAuthConf({userId: 0, isAuthenticated: false, isAdmin: false });
+  logout() {
+    this.authService.setAuthConf({
+      userId: 0,
+      isAuthenticated: false,
+      isAdmin: false,
+    });
     this.router.navigate(['/connection']);
   }
 
-  logout(){
-    this.authService.setAuthConf({userId: 0, isAuthenticated: false, isAdmin: false});
+  login() {
+    this.authService.setAuthConf({
+      userId: 0,
+      isAuthenticated: false,
+      isAdmin: false,
+    });
     this.router.navigate(['/connection']);
   }
 
-  get isAuthenticated(){
+  userProfile() {
+    this.router.navigate(['/user-profile']);
+  }
+
+  get isAuthenticated() {
     return this.authService.isAuthenticated();
   }
 
-  get isAdmin(){
+  get isAdmin() {
     return this.authService.isAdmin();
   }
 }
