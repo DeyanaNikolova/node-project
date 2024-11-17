@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConnectionService } from '../../services/connection.service';
 import { AuthService } from '../../services/auth.service';
@@ -9,7 +9,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-connection',
   standalone: true,
-  imports: [ReactiveFormsModule, HttpClientModule],
+  imports: [ReactiveFormsModule, FormsModule, HttpClientModule],
   templateUrl: './connection.component.html',
   styleUrl: './connection.component.css'
 })
