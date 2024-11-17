@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { isUserExists } from '../../util/auth';
 
 export function signIn(req: Request, res: Response): void{
-    const { login } = req.body;
+    const { login, password } = req.body;
 
     isUserExists(login, (isExisting: boolean, userId?: number) => {
         if (isExisting) {
