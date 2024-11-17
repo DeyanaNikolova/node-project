@@ -18,7 +18,7 @@ export class ProductService {
       headers: new HttpHeaders().set('Set-Cookie', 'userId=1')
     };
     
-    return this.http.get<Product[]>(this.url,); 
+    return this.http.get<Product[]>(this.url); 
   }
 
   update(product: Product): Observable<any> {
