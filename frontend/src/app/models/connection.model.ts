@@ -1,4 +1,4 @@
-export interface ConnectionInterface{
+export interface Connection {
 login: string;
 password: string;
 }
