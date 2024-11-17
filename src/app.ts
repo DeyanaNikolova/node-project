@@ -17,7 +17,10 @@ app.set('view engine', 'ejs');
 app.set('views', './src/views');
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors());
+app.use(cors({
+    credentials: true,
+   // origin: 'http://localhost:3000',
+  }));
 app.use(express.json());
 
 app.use('/connection', connectionRouter);
