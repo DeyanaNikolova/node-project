@@ -4,17 +4,17 @@
     <p></p>
     <div class="mb-3">
       <label for="firstName" class="form-label">First Name:</label>
-     {{ user.firstName}}
+     {{ user?.firstName}}
     </div>
     <div class="mb-3">
       <label for="lastName" class="form-label">Last Name:</label> 
-     {{ user.lastName }}
+     {{ user?.lastName }}
     </div>
     <div class="mb-3">
-      <label for="login" class="form-label">Login:</label> {{ user.login }}
+      <label for="login" class="form-label">Login:</label> {{ user?.login }}
     </div>
     <div class="mb-3">
-      <label for="role" class="form-label">Role:</label> {{ user.role }}
+      <label for="role" class="form-label">Role:</label> {{ user?.role }}
     </div>
   </div>
 </div>
