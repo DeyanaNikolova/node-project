@@ -71,10 +71,13 @@ export class ProductComponent implements OnInit {
 
   submit(){
     const value = this.productForm.value;
-    if(this.productTitle){
-      this.update({title: this.productTitle, ...value});
-    } else{
-      this.create(value);
-    }
+    // if(this.productTitle){
+    //   this.update({title: this.productTitle, ...value});
+    // } else{
+    //   this.create(value);
+    // }
+    this.productService.create(value).subscribe(products =>{
+      this.products = products;
+    });
   }
 }
