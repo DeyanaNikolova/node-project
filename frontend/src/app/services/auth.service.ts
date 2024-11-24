@@ -13,11 +13,7 @@ export class AuthService {
     sessionStorage.setItem('isAuthenticated', authConf.isAuthenticated + '');
     sessionStorage.setItem('isAdmin', authConf.isAdmin + '');
   }
-
-  getUserId(): number{
-    return Number(sessionStorage.getItem('userId'));
-  }
-
+  
   isAuthenticated(): boolean{
     return sessionStorage.getItem('isAuthenticated') === 'true';
   }
