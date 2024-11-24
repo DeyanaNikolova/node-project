@@ -26,26 +26,24 @@ export function createProduct(req: Request, res: Response): void {
       });
   }
 
-export function updateProduct(req: Request, res: Response): void {
-  const { title, price, amount } = req.body;
+  export function updateProduct(req: Request, res: Response): void {
+    const {title, price, amount} = req.body;
 
-  Product.findOne({ where: { title: title } })
+    Product.findOne({where: {title: title}})
     .then((product: any) => {
-      if (product) {
-        product.price = price;
-        product.amount = amount;
-        return product.save();
-      }
-      return new Promise((_, reject) => {
-        reject({message:'Product does not exist!'});
-      });
+        if(product){
+            product.price = price;
+            product.amount = amount;
+            return product.save();
+        }
+        return new Promise((_, reject) => {reject({message: 'Product does not exist!'});});
     })
     .then(() => {
-      fetchProducts(req, res);
+        fetchProducts(req, res);
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
     });
 }
 
