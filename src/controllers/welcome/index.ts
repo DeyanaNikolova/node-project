@@ -7,7 +7,7 @@ export function getWelcome(req: Request, res: Response): void {
   });
 }
 
-export function getWelcomePage(req: Request, res: Response): void {
+export function getWelcomeData(req: Request, res: Response): void {
   isAdmin(req, (isAnAdmin) => {
     res.json({
       'isAdmin': isAnAdmin,
