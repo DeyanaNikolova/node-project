@@ -2,10 +2,11 @@
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Product</h5>
-      <form method="POST" action="product">
+      <form [formGroup]="productForm" (submit)="submit()">
         <div class="mb-3">
           <label for="title" class="form-label">title</label>
           <input
+          formControlName="title"
             type="text"
             class="form-control"
             id="title"
@@ -15,6 +16,7 @@
         <div class="mb-3">
           <label for="price" class="form-label">Price</label>
           <input
+          formControlName="price"
             type="number"
             class="form-control"
             id="price"
@@ -24,6 +26,7 @@
         <div class="mb-3">
           <label for="amount" class="form-label">Amount</label>
           <input
+          formControlName="amount"
             type="number"
             class="form-control"
             id="amount"
@@ -66,7 +69,7 @@
                 >Remove</button>
                 <button
                   class="btn btn-info btn-sm"
-                  (click)="update(product)"
+                  (click)="fillForm(product)"
                 >Update</button>
               </td>
             </tr>
