@@ -14,7 +14,7 @@ export function getConnectedUserId(req: Request): number {
 export function isUserExists(login: string, callback: (isOk: boolean, userId?: number) => void): void{
     getUserByLogin(login).then(user => {
         if (user) {
-            callback(true, user.id);
+            callback(true, user.id);   
         } else {
             callback(false);
         }
@@ -39,12 +39,15 @@ export function isAdmin(req: Request, callback: (isOk: boolean) => void, userId?
     }
 }
 
+
 export function isAdminConnected(req: Request, res: Response, next: NextFunction): void{
     const userId = extractCookies(req).userId;
 
     getUserById(userId).then(user => {
+       
         
         if (user && user.role === 'ADMIN') {
+            console.log(user);
             next();
         } else {
             res.render('error', {
@@ -64,7 +67,7 @@ function extractCookies(req: Request): {isAuthenticated: boolean, userId: number
         let cookiesStr = req.get('Cookie') as string;
         
         if(!cookiesStr){
-            const cookiesList = req.get('Set-Cookie'); 
+            const cookiesList = req.get('Set-Cookie');         
             cookiesStr = cookiesList && cookiesList.length>0 ? (cookiesList[0] as string) : '';
         }
 
