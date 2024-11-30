@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule, NgIf } from '@angular/common';
@@ -11,10 +11,18 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
-  // isConnectionPage = false;
+export class AppComponent implements OnInit{
+   isConnectionPage = false;
 
   constructor(private router: Router, private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.router.events.subscribe((res: any)=>{
+      if(res && res.url){
+        this.isConnectionPage = res.url.endsWith('connection');
+      }
+    });
+  }
 
   logout() {
     this.authService.setAuthConf({
