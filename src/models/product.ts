@@ -5,7 +5,7 @@ export interface ProductAttributes{
   title: string;
   price: number;
   amount: number;
-  userId?: number;
+  userId: number;
 }
 
 class Product extends Model<ProductAttributes> implements ProductAttributes{
@@ -13,6 +13,7 @@ class Product extends Model<ProductAttributes> implements ProductAttributes{
   title!: string;
   price!: number;
   amount!: number;
+  userId!: number;
 
   static associate(models: any) {
     Product.belongsTo(models.User);
@@ -32,6 +33,10 @@ class Product extends Model<ProductAttributes> implements ProductAttributes{
       allowNull: false,
     },
     amount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
