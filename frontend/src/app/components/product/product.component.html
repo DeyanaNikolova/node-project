@@ -9,9 +9,15 @@
           formControlName="title"
             type="text"
             class="form-control"
+            [ngClass]="{'is-invalid': titleCtrl.errors && titleCtrl.dirty, 'is-valid': !titleCtrl.errors && titleCtrl.dirty}"
             id="title"
             name="title"
           />
+        </div>
+        <div class="mb-3 text-danger" *ngIf="titleCtrl.errors && titleCtrl.dirty">
+          <span *ngIf="titleCtrl.errors['required']">Title is required!</span>
+          <span *ngIf="titleCtrl.errors['minlength']">Title sholud be at least 3 characters long!</span>
+          <span *ngIf="titleCtrl.errors['maxlength']">Title sholud not be longer than 25 characters!</span>
         </div>
         <div class="mb-3">
           <label for="price" class="form-label">Price</label>
@@ -21,7 +27,11 @@
             class="form-control"
             id="price"
             name="price"
+            [ngClass]="{'is-invalid': priceCtrl.errors && priceCtrl.dirty, 'is-valid': !priceCtrl.errors && priceCtrl.dirty}"
           />
+        </div>
+        <div class="mb-3 text-danger" *ngIf="priceCtrl.errors && priceCtrl.dirty">
+          <span *ngIf="priceCtrl.errors['required']">Price is required!</span>
         </div>
         <div class="mb-3">
           <label for="amount" class="form-label">Amount</label>
@@ -31,7 +41,11 @@
             class="form-control"
             id="amount"
             name="amount"
+            [ngClass]="{'is-invalid': amountCtrl.errors && amountCtrl.dirty, 'is-valid': !amountCtrl.errors && amountCtrl.dirty}"
           />
+        </div>
+        <div class="mb-3 text-danger" *ngIf="amountCtrl.errors && amountCtrl.dirty">
+          <span *ngIf="amountCtrl.errors['required']">Amount is required!</span>
         </div>
         <input
           name="postAction"
