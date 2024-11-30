@@ -84,7 +84,7 @@ export function deleteUser(req: Request, res: Response): void {
 function getUsers(req: Request, res: Response): void {
   User.findAll()
     .then((users) => {
-      isAdmin(req, (isAnAdmin) => {
+      isAdmin(req, isAnAdmin => {
         res.json(users);
         /*res.render('users', {
                 users: users,

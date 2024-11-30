@@ -9,11 +9,11 @@ export function signIn(req: Request, res: Response): void {
       req,
       (isAnAdmin) => {
         if (isExisting) {
-          res.json({ userId: userId, isAuthenticated: true, isAnAdmin });
+          res.json({ userId: userId, isAuthenticated: true, 'isAdmin': isAnAdmin });
         } else {
           res
             .status(302)
-            .json({ userId: null, isAuthenticated: false, isAdmin: false });
+            .json({ userId: null, isAuthenticated: false, 'isAdmin': false });
         }
       },
       userId

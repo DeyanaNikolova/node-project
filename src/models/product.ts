@@ -38,8 +38,7 @@ class Product extends Model<ProductAttributes> implements ProductAttributes{
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+    }
   }, {
     sequelize,
     modelName: 'Product',

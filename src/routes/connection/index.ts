@@ -4,7 +4,6 @@ import path from 'path';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    
     res.cookie('isAuthenticated', false);
     res.cookie('login', '');
     res.send('Cookie has been set');

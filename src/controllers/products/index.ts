@@ -9,13 +9,13 @@ export function getProducts(req: Request, res: Response): void {
 export function createProduct(req: Request, res: Response): void {
     const { title, price, amount } = req.body;
     const connectedUserId = getConnectedUserId(req);
-  
+ 
     const newProduct: ProductAttributes = {
       title: title,
       price: price,
       amount: amount,
       userId: connectedUserId,
-    };
+    };    
     
     Product.create(newProduct)
       .then(() => {
@@ -71,6 +71,7 @@ export function deleteProduct(req: Request, res: Response): void {
 
 function fetchProducts(req: Request, res: Response): void {
   const connectedUserId = getConnectedUserId(req);
+  
 
   Product.findAll({ where: { userId: connectedUserId } })
     .then((products) => {
