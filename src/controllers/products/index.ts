@@ -16,6 +16,7 @@ export function createProduct(req: Request, res: Response): void {
       amount: amount,
       userId: connectedUserId,
     };
+    
     Product.create(newProduct)
       .then(() => {
         fetchProducts(req, res);
