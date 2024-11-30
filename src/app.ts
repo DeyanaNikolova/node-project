@@ -18,7 +18,7 @@ app.set('views', './src/views');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
-   credentials: true,
+    credentials: true,
    origin: 'http://localhost:4200',
   }));
 app.use(express.json());
